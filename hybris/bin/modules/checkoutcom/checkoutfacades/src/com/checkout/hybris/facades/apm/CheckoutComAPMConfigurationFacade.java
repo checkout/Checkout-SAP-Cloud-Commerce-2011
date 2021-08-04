@@ -1,6 +1,9 @@
 package com.checkout.hybris.facades.apm;
 
+import com.checkout.data.apm.CheckoutComAPMConfigurationData;
 import com.checkout.hybris.core.model.CheckoutComAPMConfigurationModel;
+
+import java.util.List;
 
 /**
  * Handles the apm configuration
@@ -32,4 +35,11 @@ public interface CheckoutComAPMConfigurationFacade {
      * @return true if apm is requires manual user data input, false otherwise
      */
     boolean isUserDataRequiredRedirect(CheckoutComAPMConfigurationModel apmConfiguration);
+
+    /**
+     * Returns a list of available apms for the session cart
+     *
+     * @return List of {@link CheckoutComAPMConfigurationData} which are available for the cart
+     */
+    List<CheckoutComAPMConfigurationData> getAvailableApms();
 }

@@ -335,6 +335,10 @@
                     <editorArea:section name="sec.configuration.checkoutcom.merchant.section">
                         <editorArea:attribute qualifier="checkoutComMerchantConfiguration"/>
                     </editorArea:section>
+                    <editorArea:section name="sec.configuration.checkoutcom.payment.section">
+                        <editorArea:attribute qualifier="checkoutComSuccessRedirectUrl" readonly="true"/>
+                        <editorArea:attribute qualifier="checkoutComFailureRedirectUrl" readonly="true"/>
+                    </editorArea:section>
                 </editorArea:tab>
             </editorArea:editorArea>
         </context>

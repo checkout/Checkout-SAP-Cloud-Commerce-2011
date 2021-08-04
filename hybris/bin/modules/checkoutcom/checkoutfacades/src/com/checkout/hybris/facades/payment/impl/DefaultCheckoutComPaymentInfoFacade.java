@@ -100,6 +100,10 @@ public class DefaultCheckoutComPaymentInfoFacade implements CheckoutComPaymentIn
                 final KlarnaPaymentInfoData klarnaPaymentInfoData = new KlarnaPaymentInfoData();
                 klarnaPaymentInfoData.setType(KLARNA.name());
                 return klarnaPaymentInfoData;
+            case OXXO:
+                final OxxoPaymentInfoData oxxoPaymentInfoData = new OxxoPaymentInfoData();
+                oxxoPaymentInfoData.setType(OXXO.name());
+                return oxxoPaymentInfoData;
             default:
                 if (asList(CheckoutComPaymentType.values()).contains(CheckoutComPaymentType.valueOf(paymentMethod))) {
                     final APMPaymentInfoData apmPaymentInfoData = new APMPaymentInfoData();

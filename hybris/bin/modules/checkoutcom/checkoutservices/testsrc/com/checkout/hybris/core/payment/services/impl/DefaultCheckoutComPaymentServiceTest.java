@@ -48,7 +48,6 @@ import static de.hybris.platform.payment.enums.PaymentTransactionType.*;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static jdk.jshell.Snippet.Status.REJECTED;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;

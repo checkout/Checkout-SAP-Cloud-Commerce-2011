@@ -56,11 +56,19 @@ public class DefaultCheckoutComAddressFacade implements CheckoutComAddressFacade
      */
     @Override
     public void setCartBillingDetails(final AddressData addressData) {
+        validateParameterNotNull(addressData, "Delivery Address cannot be null");
+        setCartBillingDetailsByAddressId(addressData.getId());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setCartBillingDetailsByAddressId(final String addressId) {
         if (cartService.hasSessionCart()) {
             final CartModel sessionCart = cartService.getSessionCart();
-            validateParameterNotNull(addressData, "Delivery Address cannot be null");
 
-            final AddressModel addressModel = checkoutFlowFacade.getDeliveryAddressModelForCode(addressData.getId());
+            final AddressModel addressModel = checkoutFlowFacade.getDeliveryAddressModelForCode(addressId);
             if (addressModel != null) {
                 addressService.setCartPaymentAddress(sessionCart, addressModel);
             }

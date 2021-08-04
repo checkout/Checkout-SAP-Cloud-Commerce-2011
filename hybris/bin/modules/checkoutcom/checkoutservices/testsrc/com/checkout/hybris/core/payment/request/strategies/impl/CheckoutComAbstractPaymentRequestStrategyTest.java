@@ -5,6 +5,7 @@ import com.checkout.hybris.core.address.strategies.CheckoutComPhoneNumberStrateg
 import com.checkout.hybris.core.currency.services.CheckoutComCurrencyService;
 import com.checkout.hybris.core.enums.MadaBin;
 import com.checkout.hybris.core.enums.PaymentActionType;
+import com.checkout.hybris.core.enums.PaymentTypes;
 import com.checkout.hybris.core.merchant.services.CheckoutComMerchantConfigurationService;
 import com.checkout.hybris.core.merchantconfiguration.BillingDescriptor;
 import com.checkout.hybris.core.model.CheckoutComCreditCardPaymentInfoModel;
@@ -55,13 +56,12 @@ public class CheckoutComAbstractPaymentRequestStrategyTest {
     private static final String CUSTOMER_EMAIL = "email@email.com";
     private static final String CART_REFERENCE = "CART_REFERENCE";
     private static final String NUMBER = "213423423";
-    private static final String CHECKOUT_COM_PAYMENT_REDIRECT_PAYMENT_SUCCESS = "/checkout/payment/checkout-com/redirect-response/success";
-    private static final String CHECKOUT_COM_PAYMENT_REDIRECT_PAYMENT_FAILURE = "/checkout/payment/checkout-com/redirect-response/failure";
+    private static final String CHECKOUT_COM_PAYMENT_REDIRECT_PAYMENT_SUCCESS = "/successUrl";
+    private static final String CHECKOUT_COM_PAYMENT_REDIRECT_PAYMENT_FAILURE = "/failureUrl";
     private static final String SITE_ID = "SITE_ID";
     private static final String TOWN = "Town";
     private static final String LINE_1 = "Line 1";
     private static final String SUBSCRIPTION_ID = "subscriptionId";
-    private static final String DEFAULT_PAYMENT_TYPE = "REGULAR";
 
     @Spy
     private CheckoutComAbstractPaymentRequestStrategy testObj;
@@ -148,6 +148,8 @@ public class CheckoutComAbstractPaymentRequestStrategyTest {
         when(checkoutComUrlServiceMock.getFullUrl(CHECKOUT_COM_PAYMENT_REDIRECT_PAYMENT_FAILURE, true)).thenReturn(CHECKOUT_COM_PAYMENT_REDIRECT_PAYMENT_FAILURE);
         when(cmsSiteServiceMock.getCurrentSite()).thenReturn(currentSiteMock);
         when(currentSiteMock.getUid()).thenReturn(SITE_ID);
+        when(currentSiteMock.getCheckoutComSuccessRedirectUrl()).thenReturn(CHECKOUT_COM_PAYMENT_REDIRECT_PAYMENT_SUCCESS);
+        when(currentSiteMock.getCheckoutComFailureRedirectUrl()).thenReturn(CHECKOUT_COM_PAYMENT_REDIRECT_PAYMENT_FAILURE);
     }
 
     private void setUpAddress() {
@@ -205,7 +207,7 @@ public class CheckoutComAbstractPaymentRequestStrategyTest {
         testObj.populatePaymentRequest(cartModelMock, paymentRequestMock);
 
         verify(paymentRequestMock).setReference(CART_REFERENCE);
-        verify(paymentRequestMock).setPaymentType(DEFAULT_PAYMENT_TYPE);
+        verify(paymentRequestMock).setPaymentType(PaymentTypes.REGULAR.getCode());
         verify(paymentRequestMock).setCustomer(customerRequestMock);
         verify(paymentRequestMock).setShipping(shippingDetailsMock);
         verify(paymentRequestMock, never()).setCapture(anyBoolean());
@@ -229,7 +231,7 @@ public class CheckoutComAbstractPaymentRequestStrategyTest {
         testObj.populatePaymentRequest(cartModelMock, paymentRequestMock);
 
         verify(paymentRequestMock).setReference(CART_REFERENCE);
-        verify(paymentRequestMock).setPaymentType(DEFAULT_PAYMENT_TYPE);
+        verify(paymentRequestMock).setPaymentType(PaymentTypes.REGULAR.getCode());
         verify(paymentRequestMock).setCustomer(customerRequestMock);
         verify(paymentRequestMock).setShipping(shippingDetailsMock);
         verify(paymentRequestMock, never()).setCapture(anyBoolean());

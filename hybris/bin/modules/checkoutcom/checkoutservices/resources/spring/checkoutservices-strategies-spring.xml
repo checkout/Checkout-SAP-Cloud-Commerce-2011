@@ -90,7 +90,9 @@
            alias="checkoutComBancontactPaymentRequestStrategy"/>
     <bean id="defaultCheckoutComBancontactPaymentRequestStrategy"
           class="com.checkout.hybris.core.payment.request.strategies.impl.CheckoutComBancontactPaymentRequestStrategy"
-          parent="checkoutComAbstractApmPaymentRequestStrategy"/>
+          parent="checkoutComAbstractApmPaymentRequestStrategy">
+        <constructor-arg ref="addressService"/>
+    </bean>
 
     <alias name="defaultCheckoutComGiropayPaymentRequestStrategy" alias="checkoutComGiropayPaymentRequestStrategy"/>
     <bean id="defaultCheckoutComGiropayPaymentRequestStrategy"
@@ -181,6 +183,13 @@
           class="com.checkout.hybris.core.payment.request.strategies.impl.CheckoutComKlarnaPaymentRequestStrategy"
           parent="checkoutComAbstractApmPaymentRequestStrategy">
         <constructor-arg ref="checkoutComKlarnaProductsRequestDtoConverter"/>
+    </bean>
+
+    <alias name="defaultCheckoutComOxxoPaymentRequestStrategy" alias="checkoutComOxxoPaymentRequestStrategy"/>
+    <bean id="defaultCheckoutComOxxoPaymentRequestStrategy"
+          class="com.checkout.hybris.core.payment.request.strategies.impl.CheckoutComOxxoPaymentRequestStrategy"
+          parent="checkoutComAbstractApmPaymentRequestStrategy">
+        <constructor-arg ref="checkoutComOxxoPaymentRequestService"/>
     </bean>
 
     <!--Checkout com response strategies-->

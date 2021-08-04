@@ -1,7 +1,9 @@
 package com.checkout.hybris.core.apm.services;
 
 import com.checkout.hybris.core.model.CheckoutComAPMConfigurationModel;
+import de.hybris.platform.core.model.media.MediaModel;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -47,4 +49,19 @@ public interface CheckoutComAPMConfigurationService {
      * @return true is the APM requires user data, false otherwise
      */
     boolean isApmUserDataRequired(String apmCode);
+
+    /**
+     * Returns a list of available apms for the session cart
+     *
+     * @return List of {@link CheckoutComAPMConfigurationModel} which are available for the cart
+     */
+    List<CheckoutComAPMConfigurationModel> getAvailableApms();
+
+    /**
+     * Returns the Media for the apm configuration
+     *
+     * @param apmConfigurationModel teh apm configuration
+     * @return the media
+     */
+    Optional<MediaModel> getApmConfigurationMedia(CheckoutComAPMConfigurationModel apmConfigurationModel);
 }

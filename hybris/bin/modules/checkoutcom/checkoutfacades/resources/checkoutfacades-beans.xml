@@ -23,6 +23,8 @@
     <bean class="de.hybris.platform.commercefacades.order.data.AbstractOrderData">
         <property name="checkoutComPaymentInfo" type="com.checkout.hybris.facades.beans.CheckoutComPaymentInfoData"/>
         <property name="baseStoreName" type="java.lang.String"/>
+        <property name="qrCodeData" type="java.lang.String"/>
+        <property name="paymentType" type="java.lang.String"/>
     </bean>
 
     <bean class="com.checkout.hybris.facades.beans.APMPaymentInfoData">
@@ -32,6 +34,11 @@
     <bean class="com.checkout.hybris.facades.beans.FawryPaymentInfoData"
           extends="com.checkout.hybris.facades.beans.APMPaymentInfoData">
         <property name="mobileNumber" type="java.lang.String"/>
+    </bean>
+
+    <bean class="com.checkout.hybris.facades.beans.OxxoPaymentInfoData"
+          extends="com.checkout.hybris.facades.beans.APMPaymentInfoData">
+        <property name="document" type="java.lang.String"/>
     </bean>
 
     <bean class="com.checkout.hybris.facades.beans.AchPaymentInfoData"
@@ -116,7 +123,15 @@
         <property name="data" type="java.lang.String"/>
     </bean>
 
-    <bean class="com.checkout.hybris.facades.beans.ApplePayPaymentContact">
+    <bean class="com.checkout.hybris.facades.beans.WalletPaymentContact">
+        <property name="administrativeArea" type="java.lang.String"/>
+        <property name="countryCode" type="java.lang.String"/>
+        <property name="locality" type="java.lang.String"/>
+        <property name="postalCode" type="java.lang.String"/>
+    </bean>
+
+    <bean class="com.checkout.hybris.facades.beans.ApplePayPaymentContact"
+          extends="com.checkout.hybris.facades.beans.WalletPaymentContact">
         <property name="phoneNumber" type="java.lang.String"/>
         <property name="emailAddress" type="java.lang.String"/>
         <property name="givenName" type="java.lang.String"/>
@@ -125,12 +140,8 @@
         <property name="phoneticFamilyName" type="java.lang.String"/>
         <property name="addressLines" type="java.util.List&lt;java.lang.String&gt;"/>
         <property name="subLocality" type="java.lang.String"/>
-        <property name="locality" type="java.lang.String"/>
-        <property name="postalCode" type="java.lang.String"/>
         <property name="subAdministrativeArea" type="java.lang.String"/>
-        <property name="administrativeArea" type="java.lang.String"/>
         <property name="country" type="java.lang.String"/>
-        <property name="countryCode" type="java.lang.String"/>
     </bean>
 
     <bean class="com.checkout.hybris.facades.beans.ApplePayPaymentPass">
@@ -172,15 +183,12 @@
         <property name="billingAddress" type="com.checkout.hybris.facades.beans.GooglePayPaymentContact"/>
     </bean>
 
-    <bean class="com.checkout.hybris.facades.beans.GooglePayPaymentContact">
+    <bean class="com.checkout.hybris.facades.beans.GooglePayPaymentContact"
+          extends="com.checkout.hybris.facades.beans.WalletPaymentContact">
         <property name="address1" type="java.lang.String"/>
         <property name="address2" type="java.lang.String"/>
         <property name="address3" type="java.lang.String"/>
-        <property name="administrativeArea" type="java.lang.String"/>
-        <property name="countryCode" type="java.lang.String"/>
-        <property name="locality" type="java.lang.String"/>
         <property name="name" type="java.lang.String"/>
-        <property name="postalCode" type="java.lang.String"/>
         <property name="sortingCode" type="java.lang.String"/>
     </bean>
 
@@ -223,4 +231,17 @@
                   type="java.util.Set&lt;java.lang.String&gt;"/>
     </bean>
 
+    <bean class="com.checkout.data.apm.CheckoutComAPMConfigurationData">
+        <property name="code" type="java.lang.String"/>
+        <property name="name" type="java.lang.String"/>
+        <property name="isRedirect" type="java.lang.Boolean"/>
+        <property name="isUserDataRequired" type="java.lang.Boolean"/>
+        <property name="media" type="de.hybris.platform.cmsfacades.data.MediaData"/>
+    </bean>
+
+    <bean class="com.checkout.data.apm.CheckoutComAPMConfigurationDataList">
+        <property name="availableApmConfigurations"
+                  type="java.util.List&lt;com.checkout.data.apm.CheckoutComAPMConfigurationData>">
+        </property>
+    </bean>
 </beans>

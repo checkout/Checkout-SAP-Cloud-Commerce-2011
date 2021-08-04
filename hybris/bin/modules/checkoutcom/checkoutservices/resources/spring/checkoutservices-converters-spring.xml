@@ -29,4 +29,21 @@
         </property>
     </bean>
 
+    <alias name="defaultCheckoutComOxxoRequestPayerDtoPopulator"
+           alias="checkoutComOxxoRequestPayerDtoPopulator"/>
+    <bean id="defaultCheckoutComOxxoRequestPayerDtoPopulator"
+          class="com.checkout.hybris.core.payment.oxxo.request.converter.populator.CheckoutComOxxoRequestPayerDtoPopulator">
+    </bean>
+
+    <alias name="defaultCheckoutComOxxoRequestPayerDtoConverter"
+           alias="checkoutComOxxoRequestPayerDtoConverter"/>
+    <bean id="defaultCheckoutComOxxoRequestPayerDtoConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.checkout.hybris.core.oxxo.session.request.OxxoPayerRequestDto"/>
+        <property name="populators">
+            <list>
+                <ref bean="checkoutComOxxoRequestPayerDtoPopulator"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>

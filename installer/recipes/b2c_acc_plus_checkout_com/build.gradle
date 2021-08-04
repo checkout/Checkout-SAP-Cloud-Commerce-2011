@@ -147,7 +147,7 @@ def pl = platform {
             names('captchaaddon', 'commerceorgsamplesaddon', 'promotionenginesamplesaddon', 'assistedservicestorefront', 'assistedservicecustomerinterestsaddon',
                     'assistedserviceyprofileaddon', 'assistedservicepromotionaddon', 'customerticketingaddon', 'textfieldconfiguratortemplateaddon', 'smarteditaddon',
                     'consignmenttrackingaddon', 'notificationaddon', 'customerinterestsaddon', 'stocknotificationaddon', 'orderselfserviceaddon', 'adaptivesearchsamplesaddon',
-                    'configurablebundleaddon', 'pcmbackofficesamplesaddon', 'xyformssamples', 'xyformsstorefrontcommons', 'personalizationsearchsamplesaddon',
+                    'configurablebundleaddon', 'pcmbackofficesamplesaddon', 'xyformssamples', 'xyformsstorefrontcommons',
                     'personalizationyprofilesampledataaddon', 'personalizationaddon', 'profiletagaddon', 'merchandisingaddon', 'merchandisingstorefrontsampledataaddon',
                     'checkoutsampledataaddon', 'checkoutaddon')
             template 'yacceleratorstorefront'

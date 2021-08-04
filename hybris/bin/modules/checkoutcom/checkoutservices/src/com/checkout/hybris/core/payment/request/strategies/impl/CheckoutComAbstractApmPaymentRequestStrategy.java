@@ -16,6 +16,7 @@ import de.hybris.platform.core.model.order.payment.PaymentInfoModel;
 
 import java.util.Optional;
 
+import static de.hybris.platform.servicelayer.util.ServicesUtil.validateParameterNotNull;
 import static java.lang.String.format;
 import static java.util.Optional.empty;
 
@@ -39,6 +40,8 @@ public abstract class CheckoutComAbstractApmPaymentRequestStrategy extends Check
     @Override
     protected PaymentRequest<RequestSource> getRequestSourcePaymentRequest(final CartModel cart,
                                                                            final String currencyIsoCode, final Long amount) {
+        validateParameterNotNull(cart.getPaymentInfo(), "paymentInfo cannot be null");
+
         final PaymentInfoModel paymentInfo = cart.getPaymentInfo();
         if (paymentInfo instanceof CheckoutComAPMPaymentInfoModel) {
             return PaymentRequest.fromSource(new AlternativePaymentSource(((CheckoutComAPMPaymentInfoModel) paymentInfo).getType().toLowerCase()), currencyIsoCode, amount);
