@@ -80,4 +80,11 @@ public class CheckoutComAbstractApmPaymentRequestStrategyTest {
         verify(testObj).createGenericMetadata();
         verify(paymentRequestMock).setMetadata(emptyMap());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void populateRequestMetadata_WhenPaymentInfoIsNull_ShouldThrowException() {
+        when(cartMock.getPaymentInfo()).thenReturn(null);
+
+        testObj.getRequestSourcePaymentRequest(cartMock, CURRENCY_ISO_CODE, CHECKOUT_COM_TOTAL_PRICE);
+    }
 }

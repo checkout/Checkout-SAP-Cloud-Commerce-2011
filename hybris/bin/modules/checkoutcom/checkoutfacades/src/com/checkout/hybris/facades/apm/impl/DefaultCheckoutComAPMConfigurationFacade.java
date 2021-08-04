@@ -1,8 +1,13 @@
 package com.checkout.hybris.facades.apm.impl;
 
+import com.checkout.data.apm.CheckoutComAPMConfigurationData;
 import com.checkout.hybris.core.apm.services.CheckoutComAPMConfigurationService;
 import com.checkout.hybris.core.model.CheckoutComAPMConfigurationModel;
 import com.checkout.hybris.facades.apm.CheckoutComAPMConfigurationFacade;
+import de.hybris.platform.converters.Converters;
+import de.hybris.platform.servicelayer.dto.converter.Converter;
+
+import java.util.List;
 
 import static de.hybris.platform.servicelayer.util.ServicesUtil.validateParameterNotNull;
 
@@ -14,9 +19,12 @@ public class DefaultCheckoutComAPMConfigurationFacade implements CheckoutComAPMC
     protected static final String APM_CONFIGURATION_CANNOT_BE_NULL = "APM configuration cannot be null";
 
     protected final CheckoutComAPMConfigurationService checkoutComAPMConfigurationService;
+    protected final Converter<CheckoutComAPMConfigurationModel, CheckoutComAPMConfigurationData> checkoutComAPMConfigurationConverter;
 
-    public DefaultCheckoutComAPMConfigurationFacade(final CheckoutComAPMConfigurationService checkoutComAPMConfigurationService) {
+    public DefaultCheckoutComAPMConfigurationFacade(final CheckoutComAPMConfigurationService checkoutComAPMConfigurationService,
+                                                    final Converter<CheckoutComAPMConfigurationModel, CheckoutComAPMConfigurationData> checkoutComAPMConfigurationConverter) {
         this.checkoutComAPMConfigurationService = checkoutComAPMConfigurationService;
+        this.checkoutComAPMConfigurationConverter = checkoutComAPMConfigurationConverter;
     }
 
     /**
@@ -49,5 +57,13 @@ public class DefaultCheckoutComAPMConfigurationFacade implements CheckoutComAPMC
         validateParameterNotNull(apmConfiguration, APM_CONFIGURATION_CANNOT_BE_NULL);
 
         return checkoutComAPMConfigurationService.isApmUserDataRequired(apmConfiguration.getCode());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<CheckoutComAPMConfigurationData> getAvailableApms() {
+        return Converters.convertAll(checkoutComAPMConfigurationService.getAvailableApms(), checkoutComAPMConfigurationConverter);
     }
 }

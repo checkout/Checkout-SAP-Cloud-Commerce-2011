@@ -136,11 +136,13 @@ INSERT_UPDATE CheckoutComAPMConfiguration; code[unique = true]; name[lang = en]
                                          ; MULTIBANCO         ; Multibanco
                                          ; SEPA               ; Sepa
                                          ; P24                ; Przelewy24
-                                         ; OXXO               ; Oxxo
                                          ; ACH                ; Ach
 
-INSERT_UPDATE CheckoutComFawryConfiguration; code[unique = true]       ; name[lang = en]            ; productId        ; productDescription[lang = en]
-                                           ; FAWRY              ; Fawry               ; Fawry product id ; Fawry product description
+INSERT_UPDATE CheckoutComFawryConfiguration; code[unique = true]; name[lang = en]; productId        ; productDescription[lang = en]
+                                           ; FAWRY              ; Fawry          ; Fawry product id ; Fawry product description
+
+INSERT_UPDATE CheckoutComOxxoConfiguration; code[unique = true]; name[lang = en]; description[lang = en]     ; integrationType(code)
+                                          ; OXXO               ; Oxxo           ; redirect OXXO Demo Payment ; redirect
 
 # Constraints
 INSERT_UPDATE SizeConstraint; descriptor(enclosingType(code), qualifier); id[unique = true, allownull = true]; max[allownull = false]; min[allownull = false]; qualifier[allownull = false]; severity(code, itemtype(code)); target[allownull = false]                                            ; type(code)                       ; message[lang = en]

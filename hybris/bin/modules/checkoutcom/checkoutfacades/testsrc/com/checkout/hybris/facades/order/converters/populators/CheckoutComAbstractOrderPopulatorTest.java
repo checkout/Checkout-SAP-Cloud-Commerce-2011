@@ -1,6 +1,7 @@
 package com.checkout.hybris.facades.order.converters.populators;
 
 import com.checkout.hybris.core.model.CheckoutComAPMPaymentInfoModel;
+import com.checkout.hybris.core.model.CheckoutComBenefitPayPaymentInfoModel;
 import com.checkout.hybris.core.model.CheckoutComCreditCardPaymentInfoModel;
 import com.checkout.hybris.core.payment.enums.CheckoutComPaymentType;
 import com.checkout.hybris.core.payment.resolvers.CheckoutComPaymentTypeResolver;
@@ -26,6 +27,7 @@ public class CheckoutComAbstractOrderPopulatorTest {
 
     private static final String BASE_STORE_NAME = "Base Store Name";
     private static final String EMAIL_TEST_VALUE = "email@test.com";
+    private static final String QR_CODE_DATA = "qrCodeData";
 
     @InjectMocks
     private CheckoutComAbstractOrderPopulator testObj;
@@ -33,7 +35,7 @@ public class CheckoutComAbstractOrderPopulatorTest {
     @Mock
     private AbstractOrderModel sourceMock;
     @Mock
-    private CheckoutComAPMPaymentInfoModel checkoutComApmPaymentInfoMock;
+    private CheckoutComBenefitPayPaymentInfoModel checkoutComApmPaymentInfoMock;
     @Mock
     private CheckoutComCreditCardPaymentInfoModel ccPaymentInfoMock;
     @Mock
@@ -55,6 +57,7 @@ public class CheckoutComAbstractOrderPopulatorTest {
 
     @Before
     public void setUp() {
+        when(sourceMock.getPaymentInfo()).thenReturn(checkoutComApmPaymentInfoMock);
         when(checkoutComPaymentTypeResolverMock.resolvePaymentType(checkoutComApmPaymentInfoMock)).thenReturn(CheckoutComPaymentType.BENEFITPAY);
         when(checkoutComApmPaymentInfoPopulatorMapperMock.findPopulator(CheckoutComPaymentType.BENEFITPAY)).thenReturn(checkoutComPaymentInfoPopulatorMock);
         doNothing().when(checkoutComPaymentInfoPopulatorMock).populate(checkoutComApmPaymentInfoMock, checkoutComPaymentInfoDataMock);
@@ -76,8 +79,6 @@ public class CheckoutComAbstractOrderPopulatorTest {
 
     @Test
     public void populate_WhenCheckoutComApmPaymentInfo_ShouldPopulateCheckoutComPaymentInfoAndBaseStoreNameDataCorrectly() {
-        when(sourceMock.getPaymentInfo()).thenReturn(checkoutComApmPaymentInfoMock);
-
         testObj.populate(sourceMock, targetMock);
 
         final InOrder inOrder = inOrder(checkoutComPaymentTypeResolverMock, checkoutComApmPaymentInfoPopulatorMapperMock, checkoutComPaymentInfoPopulatorMock, targetMock);
@@ -90,15 +91,26 @@ public class CheckoutComAbstractOrderPopulatorTest {
     }
 
     @Test
-    public void populate_WhenCCPaymentInfo_ShouldDoNothing() {
+    public void populate_WhenCCPaymentInfo_ShouldSetPaymentType() {
         when(sourceMock.getPaymentInfo()).thenReturn(ccPaymentInfoMock);
+        when(checkoutComPaymentTypeResolverMock.resolvePaymentType(ccPaymentInfoMock)).thenReturn(CheckoutComPaymentType.CARD);
 
         testObj.populate(sourceMock, targetMock);
 
-        verifyZeroInteractions(checkoutComPaymentTypeResolverMock);
+        verify(targetMock).setPaymentType(CheckoutComPaymentType.CARD.name());
         verifyZeroInteractions(checkoutComApmPaymentInfoPopulatorMapperMock);
         verifyZeroInteractions(checkoutComPaymentInfoPopulatorMock);
         verify(targetMock).setBaseStoreName(BASE_STORE_NAME);
         verifyNoMoreInteractions(targetMock);
+    }
+
+    @Test
+    public void populate_WhenBenefitPayPaymentInfo_ShouldPopulateQRCodeData() {
+        when(checkoutComApmPaymentInfoMock.getQrCode()).thenReturn(QR_CODE_DATA);
+
+        testObj.populate(sourceMock, targetMock);
+
+        verify(targetMock).setPaymentType(CheckoutComPaymentType.BENEFITPAY.name());
+        verify(targetMock).setQrCodeData(QR_CODE_DATA);
     }
 }

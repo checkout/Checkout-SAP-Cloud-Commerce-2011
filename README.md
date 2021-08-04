@@ -5,6 +5,8 @@ The Connector for SAP Commerce Cloud (formerly Hybris) enables customers to impl
 ## Release Compatibility
 This release is compatible with:
 - SAP Commerce: B2C Accelerator of SAP Commerce Cloud 2011. It is advised to install the latest patch version of SAP Commerce Cloud.
+- SAP Commerce REST API (OCC).
+- Spartacus 3.2.
 - Java 11.
 - Checkout.com Java SDK version 3.
 
@@ -73,13 +75,19 @@ The public, private and shared keys are included as properties in the manifest a
 
 Follow [this guideline](https://help.sap.com/viewer/1be46286b36a4aa48205be5a96240672/v2011/en-US/1ee068bcce7845b8ab4ed9cdd54577fb.html) to prepare the repository for the deployment onto SAP Commerce Cloud. Include the Connector extensions in the folder `core-customize`.
 
+# Spartacus Frontend
+Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API (OCC). The Connector for SAP Commerce Cloud supports the Spartacus frontend. Check out details and release notes in the Checkout.com repository for Spartacus.  
+
 # Release Notes
-- Connector for SAP Commerce Cloud version 2011, B2C Accelerator
-- Support for SAP Commerce Fulfilment process incl. Checkout.com APIs for authorisation, capture, refund and void.
-- 3DS 2.0 (PSD2). In case of a non-frictionless interaction, where the user is required to enter additional information related to the Strong Customer Authentication (SCA). This is a hosted solution page provided by Checkout.com. 
-- SAP Commerce Backoffice. The connector provides specific customisations for the backoffice to ease the administration, configuration and management of all the operations related to the integration with the Checkout.com payment solution.
-- SAP WCMS. The connector enables business users to add cards and APMs using CMS components.
-- Cards (Visa, Mastercard, Carte Bancaire, Mada, Amex, JCB, Discover, Diners) and APM (Klarna, Fawry, Sofort, Paypal, Poli, Ideal, Alipay, Benefitpay, Bancontact, Giropay, Eps, Knet, Qpay, Multibanco, P24, oxxo, Google Pay, Apple Pay) payment methods.
+- Spartacus application support: 
+   - New: OCC extension for Spartacus
+   - New: OCC endpoint for getting merchant public key
+   - New: OCC endpoint for listing the APMs
+   - New: Klarna client token endpoint
+   - New: APIs support guess checkout
+   - New: API endpoint to set billing address and shipping address
+- New APM supported: Oxxo payment method
+- Success and Failure URLs configured for every site
 
 # Support
 Contact your Checkout.com team if you have any question, technical problem or feature request for the SAP Commerce Cloud Connector.

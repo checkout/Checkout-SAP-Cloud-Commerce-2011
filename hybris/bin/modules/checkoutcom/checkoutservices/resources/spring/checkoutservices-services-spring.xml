@@ -111,13 +111,21 @@
     <bean id="defaultCheckoutComAPMConfigurationService"
           class="com.checkout.hybris.core.apm.services.impl.DefaultCheckoutComAPMConfigurationService">
         <constructor-arg ref="checkoutComApmConfigurationDao"/>
+        <constructor-arg ref="checkoutComApmComponentDao"/>
         <constructor-arg ref="checkoutComAPMConfigurationSettings"/>
+        <constructor-arg ref="cartService"/>
     </bean>
 
     <alias name="defaultApmConfigurationDao" alias="checkoutComApmConfigurationDao"/>
     <bean name="defaultApmConfigurationDao"
           class="de.hybris.platform.servicelayer.internal.dao.DefaultGenericDao">
         <constructor-arg value="CheckoutComAPMConfiguration"/>
+    </bean>
+
+    <alias name="defaultApmComponentDao" alias="checkoutComApmComponentDao"/>
+    <bean name="defaultApmComponentDao"
+          class="de.hybris.platform.servicelayer.internal.dao.DefaultGenericDao">
+        <constructor-arg value="CheckoutComAPMComponent"/>
     </bean>
 
     <util:map id="checkoutComAPMConfigurationSettings" key-type="java.lang.String"
@@ -235,7 +243,7 @@
     <bean id="oxxoAPMConfigurationSetting"
           class="com.checkout.hybris.core.apm.configuration.CheckoutComAPMConfigurationSettings">
         <property name="isApmRedirect" value="true"/>
-        <property name="isApmUserDataRequired" value="false"/>
+        <property name="isApmUserDataRequired" value="true"/>
     </bean>
 
     <bean id="achAPMConfigurationSetting"
@@ -266,4 +274,10 @@
     <bean id="defaultCheckoutComCertificateService"
           class="com.checkout.hybris.core.certificate.services.impl.DefaultCheckoutComCertificateService"/>
 
+    <alias name="defaultCheckoutComOxxoPaymentRequestService" alias="checkoutComOxxoPaymentRequestService"/>
+    <bean id="defaultCheckoutComOxxoPaymentRequestService"
+          class="com.checkout.hybris.core.payment.oxxo.service.impl.DefaultCheckoutComOxxoPaymentRequestService">
+        <constructor-arg ref="checkoutComAPMConfigurationService"/>
+        <constructor-arg ref="checkoutComOxxoRequestPayerDtoConverter"/>
+    </bean>
 </beans>

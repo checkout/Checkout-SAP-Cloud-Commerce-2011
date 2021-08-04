@@ -36,9 +36,11 @@
         </p>
         <p><spring:theme code="checkout.orderConfirmation.copySentToShort"/><strong> ${fn:escapeXml(email)}</strong></p>
 
-        <spring:theme code="checkoutcom.payment.benefitpay.qrcode.message"/><br/>
-        <canvas id="checkoutComCanvas" style="display: none"></canvas>
+        <c:if test="${not empty orderData.checkoutComPaymentInfo.qrCodeData}">
+            <spring:theme code="checkoutcom.payment.benefitpay.qrcode.message"/><br/>
 
+            <canvas id="checkoutComCanvas" style="display: none"></canvas>
+        </c:if>
     </div>
 
     <order:giftCoupons giftCoupons="${giftCoupons}"/>

@@ -1,17 +1,22 @@
 package com.checkout.hybris.core.apm.services.impl;
 
+import com.checkout.hybris.addon.model.CheckoutComAPMComponentModel;
+import com.checkout.hybris.addon.model.CheckoutComPaymentMethodComponentModel;
 import com.checkout.hybris.core.apm.configuration.CheckoutComAPMConfigurationSettings;
 import com.checkout.hybris.core.apm.services.CheckoutComAPMConfigurationService;
 import com.checkout.hybris.core.model.CheckoutComAPMConfigurationModel;
 import com.google.common.collect.ImmutableMap;
+import de.hybris.platform.core.model.media.MediaModel;
+import de.hybris.platform.core.model.order.CartModel;
+import de.hybris.platform.core.model.user.AddressModel;
+import de.hybris.platform.order.CartService;
 import de.hybris.platform.servicelayer.internal.dao.GenericDao;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.collections4.CollectionUtils.isEmpty;
@@ -26,11 +31,18 @@ public class DefaultCheckoutComAPMConfigurationService implements CheckoutComAPM
     protected static final String APM_CONFIGURATION_CODE_CANNOT_BE_NULL = "APM configuration code cannot be null.";
 
     protected final GenericDao<CheckoutComAPMConfigurationModel> checkoutComApmConfigurationDao;
+    protected final GenericDao<CheckoutComAPMComponentModel> checkoutComApmComponentDao;
     protected final Map<String, CheckoutComAPMConfigurationSettings> checkoutComAPMConfigurationSettings;
+    protected final CartService cartService;
 
-    public DefaultCheckoutComAPMConfigurationService(final GenericDao<CheckoutComAPMConfigurationModel> checkoutComApmConfigurationDao, final Map<String, CheckoutComAPMConfigurationSettings> checkoutComAPMConfigurationSettings) {
+    public DefaultCheckoutComAPMConfigurationService(final GenericDao<CheckoutComAPMConfigurationModel> checkoutComApmConfigurationDao,
+                                                     final GenericDao<CheckoutComAPMComponentModel> checkoutComApmComponentDao,
+                                                     final Map<String, CheckoutComAPMConfigurationSettings> checkoutComAPMConfigurationSettings,
+                                                     final CartService cartService) {
         this.checkoutComApmConfigurationDao = checkoutComApmConfigurationDao;
+        this.checkoutComApmComponentDao = checkoutComApmComponentDao;
         this.checkoutComAPMConfigurationSettings = checkoutComAPMConfigurationSettings;
+        this.cartService = cartService;
     }
 
     /**
@@ -87,5 +99,35 @@ public class DefaultCheckoutComAPMConfigurationService implements CheckoutComAPM
         checkArgument(checkoutComAPMConfigurationSettings.containsKey(apmCode) && checkoutComAPMConfigurationSettings.get(apmCode) != null, "There is no setting for the APM configuration code");
 
         return checkoutComAPMConfigurationSettings.get(apmCode).getIsApmUserDataRequired();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<CheckoutComAPMConfigurationModel> getAvailableApms() {
+        final CartModel sessionCart = cartService.getSessionCart();
+        if (Objects.nonNull(sessionCart.getPaymentAddress()) || Objects.nonNull(sessionCart.getDeliveryAddress())) {
+            final AddressModel address = sessionCart.getPaymentAddress() != null ? sessionCart.getPaymentAddress() : sessionCart.getDeliveryAddress();
+
+            return checkoutComApmComponentDao.find().stream()
+                    .filter(CheckoutComAPMComponentModel::getVisible)
+                    .map(CheckoutComAPMComponentModel::getApmConfiguration)
+                    .filter(apm -> isApmAvailable(apm, address.getCountry().getIsocode(), sessionCart.getCurrency().getIsocode()))
+                    .distinct()
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<MediaModel> getApmConfigurationMedia(final CheckoutComAPMConfigurationModel apmConfigurationModel) {
+        return checkoutComApmComponentDao.find(ImmutableMap.of(CheckoutComAPMComponentModel.APMCONFIGURATION, apmConfigurationModel))
+                .stream()
+                .findAny()
+                .map(CheckoutComPaymentMethodComponentModel::getMedia);
     }
 }
