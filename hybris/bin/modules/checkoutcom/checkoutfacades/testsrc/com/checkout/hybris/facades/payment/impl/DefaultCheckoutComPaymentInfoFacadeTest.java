@@ -256,6 +256,14 @@ public class DefaultCheckoutComPaymentInfoFacadeTest {
     }
 
     @Test
+    public void createPaymentInfoData_WhenOxxoPaymentMethod_ShouldReturnOxxoPaymentInfoData() {
+        final Object result = testObj.createPaymentInfoData(OXXO.name());
+
+        assertTrue(result instanceof OxxoPaymentInfoData);
+        assertEquals(OXXO.name(), ((OxxoPaymentInfoData) result).getType());
+    }
+
+    @Test
     public void createPaymentInfoData_WhenOtherApmPaymentMethod_ShouldReturnApmPaymentInfoData() {
         final Object result = testObj.createPaymentInfoData(MULTIBANCO.name());
 

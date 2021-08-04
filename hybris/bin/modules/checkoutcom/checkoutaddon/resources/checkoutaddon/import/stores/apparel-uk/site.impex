@@ -8,3 +8,7 @@ $defaultLanguage = en
 $storeUid = apparel-uk
 $siteUid = apparel-uk
 $webServiceSiteUid = $siteUidWS
+
+# Set payment redirect URLs
+UPDATE BaseSite; uid[unique = true]; checkoutComSuccessRedirectUrl                            ; checkoutComFailureRedirectUrl
+               ; $siteUid          ; /checkout/payment/checkout-com/redirect-response/success ; /checkout/payment/checkout-com/redirect-response/failure

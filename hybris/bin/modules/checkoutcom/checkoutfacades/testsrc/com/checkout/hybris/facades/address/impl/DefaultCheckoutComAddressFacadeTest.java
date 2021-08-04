@@ -114,4 +114,33 @@ public class DefaultCheckoutComAddressFacadeTest {
 
         verify(addressServiceMock).setCartPaymentAddress(cartModelMock, addressModelMock);
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void setCartBillingDetailsByAddressId_WhenNoCartFound_ShouldThrowException() {
+        when(cartServiceMock.hasSessionCart()).thenReturn(false);
+
+        testObj.setCartBillingDetailsByAddressId(ADDRESS_ID);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void setCartBillingDetailsByAddressId_WhenNoAddressData_ShouldThrowException() {
+        testObj.setCartBillingDetails(null);
+    }
+
+    @Test
+    public void setCartBillingDetailsByAddressId_WhenNoAddressModel_ShouldDoNothing() {
+        when(addressDataMock.getId()).thenReturn(null);
+        when(checkoutFlowFacadeMock.getDeliveryAddressModelForCode(ADDRESS_ID)).thenReturn(null);
+
+        testObj.setCartBillingDetailsByAddressId(ADDRESS_ID);
+
+        verifyZeroInteractions(addressServiceMock);
+    }
+
+    @Test
+    public void setCartBillingDetailsByAddressId_WhenEverythingCorrect_ShouldWorkCorrectly() {
+        testObj.setCartBillingDetailsByAddressId(ADDRESS_ID);
+
+        verify(addressServiceMock).setCartPaymentAddress(cartModelMock, addressModelMock);
+    }
 }

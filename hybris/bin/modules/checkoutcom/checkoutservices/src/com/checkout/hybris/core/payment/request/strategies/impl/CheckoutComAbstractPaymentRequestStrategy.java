@@ -3,6 +3,7 @@ package com.checkout.hybris.core.payment.request.strategies.impl;
 import com.checkout.common.Address;
 import com.checkout.hybris.core.address.strategies.CheckoutComPhoneNumberStrategy;
 import com.checkout.hybris.core.currency.services.CheckoutComCurrencyService;
+import com.checkout.hybris.core.enums.PaymentTypes;
 import com.checkout.hybris.core.merchant.services.CheckoutComMerchantConfigurationService;
 import com.checkout.hybris.core.merchantconfiguration.BillingDescriptor;
 import com.checkout.hybris.core.payment.enums.CheckoutComPaymentType;
@@ -30,11 +31,8 @@ import static java.util.Optional.empty;
  */
 public abstract class CheckoutComAbstractPaymentRequestStrategy implements CheckoutComPaymentRequestStrategy {
 
-    protected static final String DEFAULT_PAYMENT_TYPE = "REGULAR";
     protected static final String SITE_ID_KEY = "site_id";
     protected static final String UDF1_KEY = "udf1";
-    protected static final String CHECKOUT_COM_PAYMENT_REDIRECT_PAYMENT_SUCCESS = "/checkout/payment/checkout-com/redirect-response/success";
-    protected static final String CHECKOUT_COM_PAYMENT_REDIRECT_PAYMENT_FAILURE = "/checkout/payment/checkout-com/redirect-response/failure";
 
     protected CMSSiteService cmsSiteService;
     protected CheckoutComUrlService checkoutComUrlService;
@@ -101,7 +99,7 @@ public abstract class CheckoutComAbstractPaymentRequestStrategy implements Check
      */
     protected void populatePaymentRequest(final CartModel cart, final PaymentRequest<RequestSource> request) {
         request.setReference(cart.getCheckoutComPaymentReference());
-        request.setPaymentType(DEFAULT_PAYMENT_TYPE);
+        request.setPaymentType(PaymentTypes.REGULAR.getCode());
         request.setCustomer(getCustomerRequest((CustomerModel) cart.getUser()));
         request.setRisk(new RiskRequest(true));
         request.setShipping(createShippingDetails(cart.getDeliveryAddress()));
@@ -118,7 +116,7 @@ public abstract class CheckoutComAbstractPaymentRequestStrategy implements Check
      *
      * @param request the payment request
      */
-    protected void populateDynamicBillingDescriptor(PaymentRequest<RequestSource> request) {
+    protected void populateDynamicBillingDescriptor(final PaymentRequest<RequestSource> request) {
         final BillingDescriptor billingDescriptorMerchantConfiguration = checkoutComMerchantConfigurationService.getBillingDescriptor();
         final Boolean includeBillingDescriptor = billingDescriptorMerchantConfiguration.getIncludeBillingDescriptor();
         if (Boolean.TRUE.equals(includeBillingDescriptor)) {
@@ -144,8 +142,8 @@ public abstract class CheckoutComAbstractPaymentRequestStrategy implements Check
      * @param request the request to populate
      */
     protected void populateRedirectUrls(final PaymentRequest<RequestSource> request) {
-        request.setSuccessUrl(checkoutComUrlService.getFullUrl(CHECKOUT_COM_PAYMENT_REDIRECT_PAYMENT_SUCCESS, true));
-        request.setFailureUrl(checkoutComUrlService.getFullUrl(CHECKOUT_COM_PAYMENT_REDIRECT_PAYMENT_FAILURE, true));
+        request.setSuccessUrl(checkoutComUrlService.getFullUrl(cmsSiteService.getCurrentSite().getCheckoutComSuccessRedirectUrl(), true));
+        request.setFailureUrl(checkoutComUrlService.getFullUrl(cmsSiteService.getCurrentSite().getCheckoutComFailureRedirectUrl(), true));
     }
 
     /**

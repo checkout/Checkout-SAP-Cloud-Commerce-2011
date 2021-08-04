@@ -116,7 +116,7 @@ public class CheckoutComPaymentEventReversePopulatorTest {
         if (actionIdPresent) {
             sb.append("        \"action_id\": \"act_6qugd47beltevjzfi37ngm2apy\",");
         }
-        sb.append("        \"payment_type\": \"REGULAR\",");
+        sb.append("        \"payment_type\": \"Regular\",");
         sb.append("        \"auth_code\": \"752422\",");
         if (responseCodePresent) {
             sb.append("        \"response_code\": \"10000\",");
