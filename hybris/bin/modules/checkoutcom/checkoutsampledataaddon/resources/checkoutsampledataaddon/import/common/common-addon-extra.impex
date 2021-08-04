@@ -811,11 +811,13 @@ INSERT_UPDATE CheckoutComAPMConfiguration; code[unique = true]; name[lang = en];
                                          ; MULTIBANCO         ; Multibanco     ; PT                                                                                                                   ; EUR
                                          ; SEPA               ; Sepa           ; AT,BE,CY,DE,EE,ES,FI,FR,GR,IE,IT,LT,LU,LV,MT,NL,PT,SI,SK,AD,BG,CH,CZ,DK,GB,IM,JE,GG,HR,HU,IS,LI,MC,NO,PL,RO,SM,SE,VA ; EUR
                                          ; P24                ; Przelewy24     ; PL                                                                                                                   ; EUR,PLN
-                                         ; OXXO               ; Oxxo           ; MX                                                                                                                   ; MXN
                                          ; ACH                ; Ach            ; US                                                                                                                   ; USD
 
 INSERT_UPDATE CheckoutComFawryConfiguration; code[unique = true]; name[lang = en]; restrictedCountries(isocode); restrictedCurrencies(isocode); productId        ; productDescription[lang = en]
                                            ; FAWRY              ; Fawry          ; EG                          ; EGP                          ; Fawry product id ; Fawry product description
+
+INSERT_UPDATE CheckoutComOxxoConfiguration; code[unique = true]; name[lang = en]; restrictedCountries(isocode); restrictedCurrencies(isocode); description[lang = en]     ; integrationType(code)
+                                          ; OXXO               ; Oxxo           ; MX                          ; MXN                          ; redirect OXXO Demo Payment ; redirect
 
 INSERT_UPDATE Trigger; cronJob(code)[unique = true]                   ; cronExpression   ; active[default = true]
                      ; checkoutComCompletedPaymentEventCleanupCronJob ; 0 0 23 1/1 * ? * ;

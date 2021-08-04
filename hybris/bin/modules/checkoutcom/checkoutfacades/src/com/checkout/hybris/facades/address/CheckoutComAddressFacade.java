@@ -20,4 +20,11 @@ public interface CheckoutComAddressFacade {
      * @param addressData the address data
      */
     void setCartBillingDetails(AddressData addressData);
+
+    /**
+     * Sets billing details to the session cart (payment address) given an address Id
+     *
+     * @param addressId the address id
+     */
+    void setCartBillingDetailsByAddressId(String addressId);
 }

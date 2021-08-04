@@ -245,4 +245,17 @@
         </property>
     </bean>
 
+    <bean class="com.checkout.hybris.core.oxxo.session.request.OxxoPayerRequestDto">
+        <import type="com.fasterxml.jackson.annotation.JsonProperty"/>
+        <property name="name" type="java.lang.String">
+            <annotations>@JsonProperty("name")</annotations>
+        </property>
+        <property name="email" type="java.lang.String">
+            <annotations>@JsonProperty("email")</annotations>
+        </property>
+        <property name="document" type="java.lang.String">
+            <annotations>@JsonProperty("document")</annotations>
+        </property>
+    </bean>
+
 </beans>

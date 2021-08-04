@@ -79,6 +79,18 @@
             <value code="CRYPTOGRAM_3DS"/>
         </enumtype>
 
+        <enumtype code="OxxoIntegrationType" dynamic="true">
+            <value code="redirect"/>
+            <value code="direct"/>
+        </enumtype>
+
+        <enumtype code="PaymentTypes" dynamic="true">
+            <value code="Regular"/>
+            <value code="Recurring"/>
+            <value code="MOTO"/>
+            <value code="Installment"/>
+        </enumtype>
+
     </enumtypes>
 
     <relations>
@@ -232,6 +244,16 @@
                         <persistence type="property"/>
                         <modifiers optional="true"/>
                         <description>Mobile number</description>
+                    </attribute>
+                </attributes>
+            </itemtype>
+
+            <itemtype code="CheckoutComOxxoPaymentInfo" extends="CheckoutComAPMPaymentInfo">
+                <attributes>
+                    <attribute qualifier="document" type="java.lang.String">
+                        <persistence type="property"/>
+                        <modifiers optional="true"/>
+                        <description>Mexican personal identity code</description>
                     </attribute>
                 </attributes>
             </itemtype>
@@ -601,6 +623,19 @@
                 </attributes>
             </itemtype>
 
+            <itemtype code="CheckoutComOxxoConfiguration" extends="CheckoutComAPMConfiguration">
+                <attributes>
+                    <attribute qualifier="integrationType" type="OxxoIntegrationType">
+                        <persistence type="property"/>
+                        <description>The type of integration</description>
+                    </attribute>
+                    <attribute qualifier="description" type="localized:java.lang.String">
+                        <persistence type="property"/>
+                        <description>A description of de payment</description>
+                    </attribute>
+                </attributes>
+            </itemtype>
+
         </typegroup>
 
         <typegroup name="Site">
@@ -610,6 +645,14 @@
                     <attribute qualifier="checkoutComMerchantConfiguration" type="CheckoutComMerchantConfiguration">
                         <description>The Merchant Configuration</description>
                         <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="checkoutComSuccessRedirectUrl" type="java.lang.String">
+                        <persistence type="property"/>
+                        <description>Payment redirect URL for successful transaction</description>
+                    </attribute>
+                    <attribute qualifier="checkoutComFailureRedirectUrl" type="java.lang.String">
+                        <persistence type="property"/>
+                        <description>Payment redirect URL for failure transaction</description>
                     </attribute>
                 </attributes>
             </itemtype>

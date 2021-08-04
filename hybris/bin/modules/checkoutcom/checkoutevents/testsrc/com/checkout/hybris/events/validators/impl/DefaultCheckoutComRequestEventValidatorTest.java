@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 public class DefaultCheckoutComRequestEventValidatorTest {
 
     private static final String SECRET_KEY = "SECRET_KEY";
-    private static final String SIGNATURE = "2B5BD7C9D76B5D9F6B88A353738386E0EA9DA2070F6AC3CADA539E82F169D186";
+    private static final String SIGNATURE = "561668318D6FF228571FC7667C70E80BC727B7D3F44AB3130A5E368ABA94C2C0";
     private static final String SITE_ID = "electronics";
 
     @InjectMocks
@@ -77,7 +77,7 @@ public class DefaultCheckoutComRequestEventValidatorTest {
         sb.append("    \"data\": {");
         sb.append("        \"id\": \"pay_6qugd47beltevjzfi37ngm2apy\",");
         sb.append("        \"action_id\": \"act_6qugd47beltevjzfi37ngm2apy\",");
-        sb.append("        \"payment_type\": \"REGULAR\",");
+        sb.append("        \"payment_type\": \"Regular\",");
         sb.append("        \"auth_code\": \"752422\",");
         sb.append("        \"response_code\": \"10000\",");
         sb.append("        \"response_summary\": \"Approved\",");

@@ -14,7 +14,7 @@
     <context:annotation-config/>
 
     <!-- Scan for annotation configured controller -->
-    <context:component-scan base-package="com.checkout"
+    <context:component-scan base-package="com.checkout.hybris.addon"
                             scope-resolver="de.hybris.platform.spring.IgnoreTenantScopeMetadataResolver"/>
 
     <alias name="defaultCheckoutComCardComponentRenderer" alias="checkoutComCardComponentRenderer"/>
@@ -87,6 +87,7 @@
                 <entry key="ACH" value-ref="checkoutComAchPaymentInfoDataReverseConverter"/>
                 <entry key="SEPA" value-ref="checkoutComSepaPaymentInfoDataReverseConverter"/>
                 <entry key="KLARNA" value-ref="checkoutComKlarnaPaymentInfoDataReverseConverter"/>
+                <entry key="OXXO" value-ref="checkoutComOxxoPaymentInfoDataReverseConverter"/>
             </map>
         </constructor-arg>
         <constructor-arg name="defaultConverter" ref="checkoutComPaymentDataFormConverter"/>
@@ -192,6 +193,22 @@
         </property>
     </bean>
 
+    <alias name="defaultCheckoutComOxxoPaymentInfoDataReversePopulator"
+           alias="checkoutComOxxoPaymentInfoDataReversePopulator"/>
+    <bean id="defaultCheckoutComOxxoPaymentInfoDataReversePopulator"
+          class="com.checkout.hybris.addon.converters.populators.CheckoutComOxxoPaymentInfoDataReversePopulator"/>
+
+    <alias name="defaultCheckoutComOxxoPaymentInfoDataReverseConverter"
+           alias="checkoutComOxxoPaymentInfoDataReverseConverter"/>
+    <bean id="defaultCheckoutComOxxoPaymentInfoDataReverseConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.checkout.hybris.facades.beans.OxxoPaymentInfoData"/>
+        <property name="populators">
+            <list>
+                <ref bean="checkoutComOxxoPaymentInfoDataReversePopulator"/>
+            </list>
+        </property>
+    </bean>
+
     <alias name="defaultCheckoutComStepsValidator" alias="checkoutComStepsValidator"/>
     <bean id="defaultCheckoutComStepsValidator"
           class="com.checkout.hybris.addon.validators.impl.DefaultCheckoutComStepsValidator">
@@ -212,6 +229,7 @@
                 <entry key="IDEAL" value-ref="checkoutComIdealPaymentDataFormValidator"/>
                 <entry key="KLARNA" value-ref="checkoutComKlarnaPaymentDataFormValidator"/>
                 <entry key="SEPA" value-ref="checkoutComSepaPaymentDataFormValidator"/>
+                <entry key="OXXO" value-ref="checkoutComOxxoPaymentDataFormValidator"/>
             </map>
         </constructor-arg>
     </bean>
@@ -254,6 +272,11 @@
           class="com.checkout.hybris.addon.validators.paymentform.CheckoutComSepaPaymentDataFormValidator"
           parent="checkoutComAbstractPaymentDataFormValidValidator"/>
 
+    <alias name="defaultCheckoutComOxxoPaymentDataFormValidator" alias="checkoutComOxxoPaymentDataFormValidator"/>
+    <bean id="defaultCheckoutComOxxoPaymentDataFormValidator"
+          class="com.checkout.hybris.addon.validators.paymentform.CheckoutComOxxoPaymentDataFormValidator"
+          parent="checkoutComAbstractPaymentDataFormValidValidator"/>
+
     <alias name="defaultCheckoutComCCPaymentInfoDataReverseConverter"
            alias="checkoutComCCPaymentInfoDataReverseConverter"/>
     <bean id="defaultCheckoutComCCPaymentInfoDataReverseConverter" parent="abstractPopulatingConverter">
@@ -263,25 +286,6 @@
                 <ref bean="checkoutComCCPaymentInfoDataReversePopulator"/>
             </list>
         </property>
-    </bean>
-
-    <alias name="defaultCheckoutComApplePayConfigDataToValidateMerchantRequestDTOPopulatingConverter"
-           alias="checkoutComApplePayConfigDataToValidateMerchantRequestDTOPopulatingConverter"/>
-    <bean id="defaultCheckoutComApplePayConfigDataToValidateMerchantRequestDTOPopulatingConverter"
-          parent="abstractPopulatingConverter">
-        <property name="targetClass" value="com.checkout.hybris.facades.beans.ApplePayValidateMerchantData"/>
-        <property name="populators">
-            <list>
-                <ref bean="checkoutComApplePayConfigDataToValidateMerchantRequestDTOPopulator"/>
-            </list>
-        </property>
-    </bean>
-
-    <alias name="defaultCheckoutComApplePayConfigDataToValidateMerchantRequestDTOPopulator"
-           alias="checkoutComApplePayConfigDataToValidateMerchantRequestDTOPopulator"/>
-    <bean id="defaultCheckoutComApplePayConfigDataToValidateMerchantRequestDTOPopulator"
-          class="com.checkout.hybris.addon.converters.populators.CheckoutComApplePayConfigDataToValidateMerchantRequestDTOPopulator">
-        <constructor-arg ref="checkoutComUrlService"/>
     </bean>
 
     <alias name="defaultCheckoutComAddressDataReverseConverter" alias="checkoutComAddressDataReverseConverter"/>
@@ -300,37 +304,4 @@
         <constructor-arg ref="i18NFacade"/>
     </bean>
 
-    <alias name="defaultCheckoutComApplePayAddressReverseConverter" alias="checkoutComApplePayAddressReverseConverter"/>
-    <bean id="defaultCheckoutComApplePayAddressReverseConverter" parent="abstractPopulatingConverter">
-        <property name="targetClass" value="de.hybris.platform.commercefacades.user.data.AddressData"/>
-        <property name="populators">
-            <list>
-                <ref bean="checkoutComApplePayAddressReversePopulator"/>
-            </list>
-        </property>
-    </bean>
-
-    <alias name="defaultCheckoutComApplePayAddressReversePopulator" alias="checkoutComApplePayAddressReversePopulator"/>
-    <bean id="defaultCheckoutComApplePayAddressReversePopulator"
-          class="com.checkout.hybris.addon.converters.populators.CheckoutComApplePayAddressReversePopulator">
-        <constructor-arg ref="i18NFacade"/>
-    </bean>
-
-    <alias name="defaultCheckoutComGooglePayAddressReverseConverter"
-           alias="checkoutComGooglePayAddressReverseConverter"/>
-    <bean id="defaultCheckoutComGooglePayAddressReverseConverter" parent="abstractPopulatingConverter">
-        <property name="targetClass" value="de.hybris.platform.commercefacades.user.data.AddressData"/>
-        <property name="populators">
-            <list>
-                <ref bean="checkoutComGooglePayAddressReversePopulator"/>
-            </list>
-        </property>
-    </bean>
-
-    <alias name="defaultCheckoutComGooglePayAddressReversePopulator"
-           alias="checkoutComGooglePayAddressReversePopulator"/>
-    <bean id="defaultCheckoutComGooglePayAddressReversePopulator"
-          class="com.checkout.hybris.addon.converters.populators.CheckoutComGooglePayAddressReversePopulator">
-        <constructor-arg ref="i18NFacade"/>
-    </bean>
 </beans>
