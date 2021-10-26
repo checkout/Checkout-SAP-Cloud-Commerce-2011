@@ -1,11 +1,11 @@
 #Ant properties
-#Wed Aug 04 14:49:54 UTC 2021
+#Tue Oct 26 17:58:05 CEST 2021
 version.api=2011
 vendor=hybris
 group.id=de.hybris.platform
 name=checkoutocctests
 description=checkoutocctests
-builddate=20210804 1449
+builddate=20211026 1758
 releasedate=20210507 1245
 version=2011.7
 module.name=platform-module
