@@ -104,6 +104,7 @@ INSERT_UPDATE ZoneDeliveryModeValue; deliveryMode(code)[unique = true]; value ; 
                                    ; standard-net                     ; 59.99 ; 0.00                  ; MXN                             ;
                                    ; standard-net                     ; 59.99 ; 0.00                  ; EUR                             ;
                                    ; standard-net                     ; 59.99 ; 0.00                  ; GBP                             ;
+                                   ; premium-gross                    ; 0.00  ; 0.00                  ; EUR                             ; continentalEurope
 
 INSERT_UPDATE ZoneDeliveryModeValue; deliveryMode(code)[unique = true]; value ; minimum[unique = true]; currency(isocode)[unique = true]; zone(code)[default = 'australia'][unique = true]
                                    ; premium-gross                    ; 10.99 ; 0.00                  ; USD                             ;

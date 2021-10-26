@@ -89,7 +89,7 @@ public class CheckoutComKlarnaProductsRequestDtoPopulator implements Populator<C
                                         final String currencyCode,
                                         final List<KlarnaProductRequestDto> klarnaProductRequestDtos,
                                         final long totalProductTaxes) {
-        if (cart.getDeliveryMode() != null) {
+        if (cart.getDeliveryMode() != null && cart.getDeliveryCost() > 0) {
             final KlarnaProductRequestDto shippingLine = new KlarnaProductRequestDto();
             shippingLine.setName(cart.getDeliveryMode().getName());
             shippingLine.setQuantity(NumberUtils.LONG_ONE);
@@ -100,7 +100,10 @@ public class CheckoutComKlarnaProductsRequestDtoPopulator implements Populator<C
             final long totalAmount = checkoutComCurrencyService.convertAmountIntoPennies(currencyCode, cart.getDeliveryCost());
             shippingLine.setTotalAmount(totalAmount);
 
-            final long taxRate = ((totalAmount * 10000) / (totalAmount - totalTaxAmount)) - 10000;
+            long taxRate = 0;
+            if ((totalAmount > totalTaxAmount)){
+                taxRate = ((totalAmount * 10000) / (totalAmount - totalTaxAmount)) - 10000;
+            }
             shippingLine.setTaxRate(taxRate);
 
             shippingLine.setUnitPrice(checkoutComCurrencyService.convertAmountIntoPennies(currencyCode, cart.getDeliveryCost()));
