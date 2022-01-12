@@ -43,6 +43,6 @@ public class DefaultCheckoutComCurrencyService implements CheckoutComCurrencySer
         validateParameterNotNull(amountInPennies, "amount cannot be null");
 
         final Currency currency = Currency.getInstance(currencyIsoCode);
-        return new BigDecimal(amountInPennies).movePointLeft(currency.getDefaultFractionDigits()).setScale(2, RoundingMode.HALF_UP);
+        return new BigDecimal(amountInPennies).movePointLeft(currency.getDefaultFractionDigits()).setScale(currency.getDefaultFractionDigits(), RoundingMode.HALF_UP);
     }
 }

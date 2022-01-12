@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -110,6 +111,68 @@ public class CheckoutComKlarnaProductsRequestDtoPopulatorTest {
         assertEquals(CHECKOUTCOM_AMOUNT_LONG, target.get(2).getTotalAmount());
 
         verify(checkoutComKlarnaDiscountAmountStrategyMock).applyDiscountsToKlarnaOrderLines(sourceMock, target);
+    }
+
+    @Test
+    public void populateShippingLine_ShouldDoNothing_WhenShippingAmountIsZero() {
+        final List<KlarnaProductRequestDto> productRequestDtos = new ArrayList<>();
+
+        when(sourceMock.getDeliveryCost()).thenReturn(0d);
+
+        testObj.populateShippingLine(sourceMock, CURRENCY_CODE, productRequestDtos, 0);
+
+        assertThat(productRequestDtos).isEmpty();
+    }
+
+    @Test
+    public void populateShippingLine_ShouldNotSetTaxRate_WhenTaxIsZero() {
+        final List<KlarnaProductRequestDto> productRequestDtos = new ArrayList<>();
+
+        when(checkoutComCurrencyServiceMock.convertAmountIntoPennies(CURRENCY_CODE, CHECKOUTCOM_AMOUNT_DOUBLE))
+                .thenReturn(50L)
+                .thenReturn(50L);
+
+        testObj.populateShippingLine(sourceMock, CURRENCY_CODE, productRequestDtos, 0);
+
+        assertThat(productRequestDtos).hasSize(1);
+
+        final KlarnaProductRequestDto shippingRequestDto = productRequestDtos.get(0);
+
+        assertThat(shippingRequestDto.getTaxRate()).isZero();
+    }
+
+    @Test
+    public void populateShippingLine_ShouldNotSetTaxRateIfTax_WhenLessThanZero() {
+        final List<KlarnaProductRequestDto> productRequestDtos = new ArrayList<>();
+
+        when(checkoutComCurrencyServiceMock.convertAmountIntoPennies(CURRENCY_CODE, CHECKOUTCOM_AMOUNT_DOUBLE))
+                .thenReturn(200L)
+                .thenReturn(50L);
+
+        testObj.populateShippingLine(sourceMock, CURRENCY_CODE, productRequestDtos, 0);
+
+        assertThat(productRequestDtos).hasSize(1);
+
+        final KlarnaProductRequestDto shippingRequestDto = productRequestDtos.get(0);
+
+        assertThat(shippingRequestDto.getTaxRate()).isZero();
+    }
+
+    @Test
+    public void populateShippingLine_ShouldSetTaxRate_WhenIfTaxIsGreaterThanZero() {
+        final List<KlarnaProductRequestDto> productRequestDtos = new ArrayList<>();
+
+        when(checkoutComCurrencyServiceMock.convertAmountIntoPennies(CURRENCY_CODE, CHECKOUTCOM_AMOUNT_DOUBLE))
+                .thenReturn(50L)
+                .thenReturn(200L);
+
+        testObj.populateShippingLine(sourceMock, CURRENCY_CODE, productRequestDtos, 0);
+
+        assertThat(productRequestDtos).hasSize(1);
+
+        final KlarnaProductRequestDto shippingRequestDto = productRequestDtos.get(0);
+
+        assertThat(shippingRequestDto.getTaxRate()).isNotZero();
     }
 
     @Test(expected = IllegalArgumentException.class)
