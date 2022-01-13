@@ -22,6 +22,7 @@ public class CheckoutComCCPaymentInfoDataReversePopulatorTest {
     private static final String VALID_TO_YEAR = "2022";
     private static final String CARD_TYPE_STRIPPED_SPACES = "AmericanExpress";
     private static final String CARD_BIN = "123456";
+    private static final String ACCOUNT_HOLDER_NAME = "John Doe";
 
     private static final String PAYMENT_TOKEN_KEY = "paymentToken";
     private static final String NUMBER_KEY = "number";
@@ -29,6 +30,7 @@ public class CheckoutComCCPaymentInfoDataReversePopulatorTest {
     private static final String VALID_TO_MONTH_KEY = "validToMonth";
     private static final String VALID_TO_YEAR_KEY = "validToYear";
     private static final String CARD_TYPE_KEY = "cardType";
+    private static final String ACCOUNT_HOLDER_NAME_KEY = "accountHolderName";
 
     private CheckoutComCCPaymentInfoDataReversePopulator testObj = new CheckoutComCCPaymentInfoDataReversePopulator();
 
@@ -47,6 +49,7 @@ public class CheckoutComCCPaymentInfoDataReversePopulatorTest {
         attributesMap.put(VALID_TO_MONTH_KEY, VALID_TO_MONTH);
         attributesMap.put(VALID_TO_YEAR_KEY, VALID_TO_YEAR);
         attributesMap.put(CARD_TYPE_KEY, CARD_TYPE_WITH_SPACES);
+        attributesMap.put(ACCOUNT_HOLDER_NAME_KEY, ACCOUNT_HOLDER_NAME);
         paymentDataForm.setFormAttributes(attributesMap);
     }
 
@@ -69,6 +72,7 @@ public class CheckoutComCCPaymentInfoDataReversePopulatorTest {
         assertEquals(VALID_TO_MONTH, ccPaymentInfoData.getExpiryMonth());
         assertEquals(VALID_TO_YEAR, ccPaymentInfoData.getExpiryYear());
         assertEquals(CARD_TYPE_STRIPPED_SPACES, ccPaymentInfoData.getCardType());
+        assertEquals(ACCOUNT_HOLDER_NAME, ccPaymentInfoData.getAccountHolderName());
         assertFalse(ccPaymentInfoData.isSaved());
     }
 
@@ -85,5 +89,6 @@ public class CheckoutComCCPaymentInfoDataReversePopulatorTest {
         assertEquals(CARD_TYPE_STRIPPED_SPACES, ccPaymentInfoData.getCardType());
         assertTrue(ccPaymentInfoData.isSaved());
         assertEquals(CARD_BIN, ccPaymentInfoData.getCardBin());
+        assertEquals(ACCOUNT_HOLDER_NAME, ccPaymentInfoData.getAccountHolderName());
     }
 }

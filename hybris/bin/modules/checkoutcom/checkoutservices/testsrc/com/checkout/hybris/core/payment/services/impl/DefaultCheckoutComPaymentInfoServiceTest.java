@@ -123,7 +123,6 @@ public class DefaultCheckoutComPaymentInfoServiceTest {
         testObj.createPaymentInfo(checkoutComCreditCardPaymentInfoModelMock, cartModelMock);
 
         final InOrder inOrder = inOrder(checkoutComCreditCardPaymentInfoModelMock, modelServiceMock, cartModelMock);
-        inOrder.verify(checkoutComCreditCardPaymentInfoModelMock).setCcOwner(USER_ID);
         inOrder.verify(checkoutComCreditCardPaymentInfoModelMock).setUser(userMock);
         inOrder.verify(modelServiceMock).save(checkoutComCreditCardPaymentInfoModelMock);
         inOrder.verify(cartModelMock).setPaymentInfo(checkoutComCreditCardPaymentInfoModelMock);
