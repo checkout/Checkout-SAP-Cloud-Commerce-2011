@@ -88,7 +88,7 @@ export class CheckoutComSepaApmComponent implements OnInit, OnDestroy {
           line1: value.addressLine1,
           line2: value.addressLine2 || '',
           postalCode: value.postalCode,
-          city: value.city,
+          town: value.city,
           country: value.country,
         } as Address
       });

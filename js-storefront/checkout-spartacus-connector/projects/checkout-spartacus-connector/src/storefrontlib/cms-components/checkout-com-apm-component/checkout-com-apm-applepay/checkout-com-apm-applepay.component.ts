@@ -3,8 +3,9 @@ import { CheckoutComApplepayService } from '../../../../core/services/applepay/c
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ApplePayAuthorization, ApplePayPaymentRequest } from '../../../../core/model/ApplePay';
-import { CheckoutService, RoutingService, WindowRef } from '@spartacus/core';
+import { RoutingService, WindowRef } from '@spartacus/core';
 import { createApplePaySession } from '../../../../core/services/applepay/applepay-session';
+import { CheckoutFacade } from '@spartacus/checkout/root';
 
 @Component({
   selector: 'lib-checkout-com-apm-applepay',
@@ -15,7 +16,7 @@ export class CheckoutComApmApplepayComponent implements OnDestroy {
   private applePaySession: any;
   private drop = new Subject();
 
-  constructor(protected checkoutService: CheckoutService,
+  constructor(protected checkoutFacade: CheckoutFacade,
               protected routingService: RoutingService,
               protected checkoutComApplepayService: CheckoutComApplepayService,
               protected windowRef: WindowRef,
@@ -55,7 +56,7 @@ export class CheckoutComApmApplepayComponent implements OnDestroy {
     ).subscribe((authorization: ApplePayAuthorization) => {
       const ApplePaySession = createApplePaySession(this.windowRef);
       const statusCode =
-        authorization.transactionStatus === 'AUTHORISED'
+        authorization.status === 'SUCCESS'
           ? ApplePaySession.STATUS_SUCCESS
           : ApplePaySession.STATUS_FAILURE;
 
@@ -64,7 +65,7 @@ export class CheckoutComApmApplepayComponent implements OnDestroy {
       });
     });
 
-    this.checkoutService.getOrderDetails().pipe(
+    this.checkoutFacade.getOrderDetails().pipe(
       filter(order => Object.keys(order).length !== 0),
       takeUntil(this.drop)
     ).subscribe(() => {

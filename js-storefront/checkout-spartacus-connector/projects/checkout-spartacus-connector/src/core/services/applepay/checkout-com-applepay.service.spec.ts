@@ -133,7 +133,7 @@ describe('CheckoutComApplepayService', () => {
 
   it('should get merchant session from state', (done) => {
     const payload = {
-      transactionStatus: 'APPROVED',
+      status: 'SUCCESS',
       orderData: {
         code: '1234',
       }

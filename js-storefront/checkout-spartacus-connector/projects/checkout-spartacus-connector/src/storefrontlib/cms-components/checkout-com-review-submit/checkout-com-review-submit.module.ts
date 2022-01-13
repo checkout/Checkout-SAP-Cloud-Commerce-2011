@@ -3,14 +3,13 @@ import { CommonModule } from '@angular/common';
 import { CheckoutComReviewSubmitComponent } from './checkout-com-review-submit.component';
 import {
   CardModule,
-  CartNotEmptyGuard,
   CartSharedModule,
-  CheckoutAuthGuard,
   IconModule,
   PromotionsModule
 } from '@spartacus/storefront';
-import { CmsConfig, I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
+import { I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
+import { CartNotEmptyGuard, CheckoutAuthGuard } from '@spartacus/checkout/components';
 
 @NgModule({
   declarations: [CheckoutComReviewSubmitComponent],

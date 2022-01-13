@@ -1,11 +1,11 @@
 #Ant properties
-#Tue Oct 26 17:58:05 CEST 2021
+#Thu Jan 13 10:20:43 UTC 2022
 version.api=2011
 vendor=hybris
 group.id=de.hybris.platform
 name=checkoutbackoffice
 description=checkoutbackoffice
-builddate=20211026 1758
+builddate=20220113 1020
 releasedate=20210507 1245
 version=2011.7
 module.name=platform-module

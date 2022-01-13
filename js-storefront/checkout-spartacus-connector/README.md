@@ -7,7 +7,7 @@ This [Checkout.com](https://www.checkout.com/) library adds payments capabilitie
 This library is tailored to the [Spartacus](https://sap.github.io/spartacus-docs/) Storefront:
 
 This release is compatible with:
-* Spartacus: version 3.2
+* Spartacus: version 4.2.x
 * SAP Commerce Cloud: version 2011
 * Angular CLI: Version 10.1 or later, < 11.
 * Node.js: The most recent 12.x version is recommended, < 13.

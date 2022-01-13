@@ -4,12 +4,15 @@ import { CheckoutComOrderDetailItemsComponent } from './checkout-com-order-detai
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import {
   CardModule,
-  CartSharedModule, OrderDetailsModule,
+  CartSharedModule,
   OrderOverviewModule,
   PromotionsModule,
-  SpinnerModule
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
+import { CheckoutModule } from '@spartacus/checkout';
+import { OrderDetailsModule } from '@spartacus/order/components';
+import { CheckoutCoreModule } from '@spartacus/checkout/core';
 
 @NgModule({
   declarations: [CheckoutComOrderDetailItemsComponent],
@@ -24,7 +27,9 @@ import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
     UrlModule,
     SpinnerModule,
     NgxQRCodeModule,
-    OrderDetailsModule
+    CheckoutModule,
+    CheckoutCoreModule,
+    OrderDetailsModule,
   ]
 })
 export class CheckoutComOrderDetailItemsModule { }

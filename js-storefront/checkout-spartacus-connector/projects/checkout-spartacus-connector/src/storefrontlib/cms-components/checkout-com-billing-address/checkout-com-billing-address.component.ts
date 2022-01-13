@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, Output, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Address, Country, Region, UserAddressService, UserPaymentService, CheckoutDeliveryService } from '@spartacus/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Address, Country, Region, UserAddressService, UserPaymentService } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { tap, map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 
 @Component({
   selector: 'lib-checkout-com-billing-address',
@@ -23,7 +24,7 @@ export class CheckoutComBillingAddressComponent implements OnInit {
   constructor(
     protected userAddressService: UserAddressService,
     protected userPaymentService: UserPaymentService,
-    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutDeliveryFacade: CheckoutDeliveryFacade,
     protected fb: FormBuilder,
   ) {}
 
@@ -38,7 +39,7 @@ export class CheckoutComBillingAddressComponent implements OnInit {
       })
     );
 
-    this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
+    this.shippingAddress$ = this.checkoutDeliveryFacade.getDeliveryAddress();
 
     this.regions$ = this.billingAddressForm.get('country.isocode').valueChanges.pipe(
       switchMap((country) => this.userAddressService.getRegions(country)),

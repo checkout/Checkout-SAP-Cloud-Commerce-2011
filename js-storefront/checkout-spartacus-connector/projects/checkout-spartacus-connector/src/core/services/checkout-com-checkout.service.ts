@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartService, CheckoutService, StateWithCheckout, UserIdService, WindowRef } from '@spartacus/core';
+import { ActiveCartService, StateWithProcess, UserIdService } from '@spartacus/core';
+import { CheckoutService, StateWithCheckout } from '@spartacus/checkout/core';
 import { Store } from '@ngrx/store';
 import { CheckoutComOrderResult, StateWithCheckoutCom } from '../store/checkout-com.state';
 import * as CheckoutComActions from '../store/checkout-com.actions';
@@ -18,9 +19,11 @@ export class CheckoutComCheckoutService extends CheckoutService {
     protected checkoutComStore: Store<StateWithCheckoutCom>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
+    protected processStateStore: Store<StateWithProcess<void>>,
   ) {
     super(
       checkoutStore,
+      processStateStore,
       activeCartService,
       userIdService
     );

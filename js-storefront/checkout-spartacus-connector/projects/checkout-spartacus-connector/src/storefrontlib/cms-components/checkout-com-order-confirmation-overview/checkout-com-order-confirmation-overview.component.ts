@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { OrderConfirmationOverviewComponent } from '@spartacus/storefront';
+import { OrderConfirmationOverviewComponent } from '@spartacus/checkout/components';
 import { Observable } from 'rxjs';
 
 @Component({
