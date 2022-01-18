@@ -1,21 +1,31 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild, ElementRef, AfterViewInit, NgZone, OnDestroy } from '@angular/core';
-import { Subject, BehaviorSubject } from 'rxjs';
 import {
-  CheckoutService,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
+import {
+  ActiveCartService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
   UserIdService,
-  ActiveCartService,
   WindowRef
 } from '@spartacus/core';
 import { CheckoutComGooglepayService } from '../../../../core/services/googlepay/checkout-com-googlepay.service';
-import { filter, takeUntil, switchMap, first, take } from 'rxjs/operators';
+import { filter, first, switchMap, take, takeUntil } from 'rxjs/operators';
 import { CheckoutComPaymentService } from '../../../../core/services/checkout-com-payment.service';
 import { FormGroup } from '@angular/forms';
 import { makeFormErrorsVisible } from '../../../../core/shared/make-form-errors-visible';
 import { loadScript } from '../../../../core/shared/loadScript';
 import { getUserIdCartId } from '../../../../core/shared/get-user-cart-id';
+import { CheckoutFacade } from '@spartacus/checkout/root';
 
 @Component({
   selector: 'lib-checkout-com-apm-googlepay',
@@ -32,7 +42,7 @@ export class CheckoutComApmGooglepayComponent implements OnInit, AfterViewInit, 
   constructor(
     protected checkoutComGooglePayService: CheckoutComGooglepayService,
     protected globalMessageService: GlobalMessageService,
-    protected checkoutService: CheckoutService,
+    protected checkoutFacade: CheckoutFacade,
     protected routingService: RoutingService,
     protected checkoutComPaymentService: CheckoutComPaymentService,
     protected userIdService: UserIdService,
@@ -43,7 +53,7 @@ export class CheckoutComApmGooglepayComponent implements OnInit, AfterViewInit, 
   }
 
   ngOnInit(): void {
-    this.checkoutService.getOrderDetails().pipe(
+    this.checkoutFacade.getOrderDetails().pipe(
       filter(order => Object.keys(order).length !== 0), takeUntil(this.drop)
     ).subscribe(() => {
       this.routingService.go({cxRoute: 'orderConfirmation'});

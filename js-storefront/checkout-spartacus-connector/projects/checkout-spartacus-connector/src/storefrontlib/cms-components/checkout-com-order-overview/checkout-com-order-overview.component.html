@@ -11,7 +11,7 @@
 
         <ng-container *ngIf="order?.created">
           <cx-card
-            [content]="getOrderCurrentDateCardContent() | async"
+            [content]="getOrderCurrentDateCardContent(order?.created | cxDate) | async"
           ></cx-card>
         </ng-container>
 

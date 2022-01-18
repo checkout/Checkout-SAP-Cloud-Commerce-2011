@@ -41,6 +41,6 @@ export interface GooglePayPaymentRequest {
 }
 
 export interface PlaceOrderResponse {
-  transactionStatus: string;
+  status: string;
   orderData: Order;
 }

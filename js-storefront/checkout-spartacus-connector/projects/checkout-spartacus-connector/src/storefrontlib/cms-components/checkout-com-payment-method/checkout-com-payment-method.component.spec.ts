@@ -1,16 +1,28 @@
 import { Component, Input, Type } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartService, Address, CheckoutDeliveryService, CheckoutPaymentService, CheckoutService, GlobalMessageService, GlobalMessageType, I18nTestingModule, PaymentDetails, UserPaymentService, UserIdService, } from '@spartacus/core';
+import {
+  ActiveCartService,
+  Address,
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
+  PaymentDetails,
+  UserIdService,
+  UserPaymentService,
+} from '@spartacus/core';
+
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutComPaymentMethodComponent } from './checkout-com-payment-method.component';
-import { CheckoutStepService, CardComponent, ICON_TYPE } from '@spartacus/storefront';
+import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
 import { CheckoutComPaymentService } from '../../../core/services/checkout-com-payment.service';
 import { CheckoutComPaymentDetails } from '../../interfaces';
-import createSpy = jasmine.createSpy;
 import { CheckoutComApmService } from '../../../core/services/checkout-com-apm.service';
 import { ApmData, PaymentType } from '../../../core/model/ApmData';
+import { CheckoutStepService } from '@spartacus/checkout/components';
+import createSpy = jasmine.createSpy;
+import { CheckoutDeliveryFacade, CheckoutFacade, CheckoutPaymentFacade } from '@spartacus/checkout/root';
 
 @Component({
   selector: 'cx-icon',
@@ -45,11 +57,11 @@ class MockUserPaymentService {
   }
 }
 
-class MockCheckoutService {
+class MockCheckoutFacade {
   clearCheckoutStep = createSpy();
 }
 
-class MockCheckoutPaymentService {
+class MockCheckoutPaymentFacade {
   setPaymentDetails = createSpy();
   createPaymentDetails = createSpy();
 
@@ -76,7 +88,7 @@ class MockCheckoutComPaymentService {
   paymentProcessSuccess() {}
 }
 
-class MockCheckoutDeliveryService {
+class MockCheckoutDeliveryFacade {
   getDeliveryAddress(): Observable<PaymentDetails> {
     return of(null);
   }
@@ -162,11 +174,11 @@ describe('CheckoutComPaymentMethodComponent', () => {
   let component: CheckoutComPaymentMethodComponent;
   let fixture: ComponentFixture<CheckoutComPaymentMethodComponent>;
   let mockUserPaymentService: UserPaymentService;
-  let mockCheckoutPaymentService: CheckoutPaymentService;
+  let mockCheckoutPaymentFacade: CheckoutPaymentFacade;
   let mockCheckoutComPaymentService: CheckoutComPaymentService;
   let mockActiveCartService: ActiveCartService;
   let mockGlobalMessageService: GlobalMessageService;
-  let mockCheckoutService: CheckoutService;
+  let mockCheckoutFacade: CheckoutFacade;
   let checkoutStepService: CheckoutStepService;
 
   beforeEach(
@@ -182,10 +194,10 @@ describe('CheckoutComPaymentMethodComponent', () => {
         ],
         providers: [
           {provide: UserPaymentService, useClass: MockUserPaymentService},
-          {provide: CheckoutService, useClass: MockCheckoutService},
+          {provide: CheckoutFacade, useClass: MockCheckoutFacade},
           {
-            provide: CheckoutDeliveryService,
-            useClass: MockCheckoutDeliveryService,
+            provide: CheckoutDeliveryFacade,
+            useClass: MockCheckoutDeliveryFacade,
           },
           {
             provide: ActiveCartService,
@@ -196,8 +208,8 @@ describe('CheckoutComPaymentMethodComponent', () => {
             useClass: MockUserIdService,
           },
           {
-            provide: CheckoutPaymentService,
-            useClass: MockCheckoutPaymentService,
+            provide: CheckoutPaymentFacade,
+            useClass: MockCheckoutPaymentFacade,
           },
           {
             provide: CheckoutComPaymentService,
@@ -211,11 +223,11 @@ describe('CheckoutComPaymentMethodComponent', () => {
       }).compileComponents();
 
       mockUserPaymentService = TestBed.inject(UserPaymentService);
-      mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentService);
+      mockCheckoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
       mockCheckoutComPaymentService = TestBed.inject(CheckoutComPaymentService);
       mockActiveCartService = TestBed.inject(ActiveCartService);
       mockGlobalMessageService = TestBed.inject(GlobalMessageService);
-      mockCheckoutService = TestBed.inject(CheckoutService);
+      mockCheckoutFacade = TestBed.inject(CheckoutFacade);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
@@ -239,7 +251,7 @@ describe('CheckoutComPaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([])
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+      spyOn(mockCheckoutPaymentFacade, 'getPaymentDetails').and.returnValue(
         of(null)
       );
 
@@ -284,14 +296,14 @@ describe('CheckoutComPaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of(mockPayments)
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+      spyOn(mockCheckoutPaymentFacade, 'getPaymentDetails').and.returnValue(
         of(null)
       );
 
       component.ngOnInit();
       fixture.detectChanges();
 
-      expect(mockCheckoutPaymentService.setPaymentDetails).toHaveBeenCalledWith(
+      expect(mockCheckoutPaymentFacade.setPaymentDetails).toHaveBeenCalledWith(
         mockPayments[1]
       );
     });
@@ -303,7 +315,7 @@ describe('CheckoutComPaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([])
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+      spyOn(mockCheckoutPaymentFacade, 'getPaymentDetails').and.returnValue(
         of(null)
       );
 
@@ -327,7 +339,7 @@ describe('CheckoutComPaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([])
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+      spyOn(mockCheckoutPaymentFacade, 'getPaymentDetails').and.returnValue(
         selectedPaymentMethod.asObservable()
       );
 
@@ -351,7 +363,7 @@ describe('CheckoutComPaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([mockPaymentDetails])
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+      spyOn(mockCheckoutPaymentFacade, 'getPaymentDetails').and.returnValue(
         of(null)
       );
 
@@ -389,7 +401,7 @@ describe('CheckoutComPaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([mockPaymentDetails])
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+      spyOn(mockCheckoutPaymentFacade, 'getPaymentDetails').and.returnValue(
         selectedPaymentMethod.asObservable()
       );
 
@@ -458,7 +470,7 @@ describe('CheckoutComPaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of(mockPayments)
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+      spyOn(mockCheckoutPaymentFacade, 'getPaymentDetails').and.returnValue(
         of(mockPaymentDetails)
       );
 
@@ -469,7 +481,7 @@ describe('CheckoutComPaymentMethodComponent', () => {
       .query(By.css('.btn-link'))
       .nativeElement.click();
 
-      expect(mockCheckoutPaymentService.setPaymentDetails).toHaveBeenCalledWith(
+      expect(mockCheckoutPaymentFacade.setPaymentDetails).toHaveBeenCalledWith(
         mockPayments[1]
       );
     });
@@ -506,7 +518,7 @@ describe('CheckoutComPaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of(mockPayments)
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+      spyOn(mockCheckoutPaymentFacade, 'getPaymentDetails').and.returnValue(
         of(mockPaymentDetails)
       );
 
@@ -514,7 +526,7 @@ describe('CheckoutComPaymentMethodComponent', () => {
       fixture.detectChanges();
 
       expect(
-        mockCheckoutPaymentService.setPaymentDetails
+        mockCheckoutPaymentFacade.setPaymentDetails
       ).not.toHaveBeenCalled();
     });
 
@@ -525,7 +537,7 @@ describe('CheckoutComPaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([mockPaymentDetails])
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+      spyOn(mockCheckoutPaymentFacade, 'getPaymentDetails').and.returnValue(
         of(null)
       );
 
@@ -549,7 +561,7 @@ describe('CheckoutComPaymentMethodComponent', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([mockPaymentDetails])
       );
-      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+      spyOn(mockCheckoutPaymentFacade, 'getPaymentDetails').and.returnValue(
         of({
           ...mockPaymentDetails,
           hasError: true,
@@ -567,7 +579,7 @@ describe('CheckoutComPaymentMethodComponent', () => {
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-      expect(mockCheckoutService.clearCheckoutStep).toHaveBeenCalledWith(3);
+      expect(mockCheckoutFacade.clearCheckoutStep).toHaveBeenCalledWith(3);
     });
 
     it('should subscribe to the selected Apm', () => {

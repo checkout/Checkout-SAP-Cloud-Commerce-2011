@@ -234,7 +234,6 @@ public class DefaultCheckoutComPaymentInfoService extends DefaultPaymentInfoServ
 
     protected CheckoutComCreditCardPaymentInfoModel setUpCardPaymentInfo(final CheckoutComCreditCardPaymentInfoModel paymentInfoModel, final CartModel cartModel, final UserModel user) {
         paymentInfoModel.setCode(generatePaymentInfoCode(cartModel));
-        paymentInfoModel.setCcOwner(user.getUid());
         return paymentInfoModel;
     }
 

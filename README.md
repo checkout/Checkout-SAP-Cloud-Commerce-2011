@@ -88,7 +88,6 @@ Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud.
    - New: API endpoint to set billing address and shipping address
 - New APM supported: Oxxo payment method
 - Success and Failure URLs configured for every site
-- Spartacus source code
 
 # Support
 Contact your Checkout.com team if you have any question, technical problem or feature request for the SAP Commerce Cloud Connector.
