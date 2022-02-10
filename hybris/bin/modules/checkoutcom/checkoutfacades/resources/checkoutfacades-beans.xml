@@ -244,4 +244,55 @@
                   type="java.util.List&lt;com.checkout.data.apm.CheckoutComAPMConfigurationData>">
         </property>
     </bean>
+
+    <bean class="com.checkout.hybris.facades.beans.ApplePayPaymentRequestData">
+        <property name="supportedNetworks" type="java.util.Set&lt;java.lang.String&gt;"/>
+        <property name="merchantCapabilities" type="java.util.Set&lt;java.lang.String&gt;"/>
+        <property name="countryCode" type="java.lang.String"/>
+        <property name="currencyCode" type="java.lang.String"/>
+        <property name="total" type="com.checkout.hybris.facades.beans.ApplePayTotalData"/>
+        <property name="requiredBillingContactFields" type="java.util.List&lt;java.lang.String>"/>
+    </bean>
+
+    <bean class="com.checkout.hybris.facades.beans.ApplePayTotalData">
+        <property name="label" type="java.lang.String"/>
+        <property name="amount" type="java.lang.String"/>
+        <property name="type" type="java.lang.String"/>
+    </bean>
+
+    <bean class="com.checkout.hybris.facades.beans.GooglePayMerchantConfigurationData">
+        <property name="baseCardPaymentMethod" type="com.checkout.hybris.facades.beans.BaseCardPaymentMethodData"/>
+        <property name="clientSettings" type="com.checkout.hybris.facades.beans.GooglePayClientSettingsData"/>
+        <property name="gateway" type="java.lang.String"/>
+        <property name="gatewayMerchantId" type="java.lang.String"/>
+        <property name="merchantName" type="java.lang.String"/>
+        <property name="merchantId" type="java.lang.String"/>
+        <property name="transactionInfo" type="com.checkout.hybris.facades.beans.GooglePayTransactionInfoData"/>
+    </bean>
+
+    <bean class="com.checkout.hybris.facades.beans.BaseCardPaymentMethodData">
+        <property name="type" type="java.lang.String"/>
+        <property name="parameters" type="com.checkout.hybris.facades.beans.BaseCardPaymentMethodParametersData"/>
+    </bean>
+
+    <bean class="com.checkout.hybris.facades.beans.BaseCardPaymentMethodParametersData">
+        <property name="allowedAuthMethods" type="java.util.Set&lt;java.lang.String&gt;"/>
+        <property name="allowedCardNetworks" type="java.util.Set&lt;java.lang.String&gt;"/>
+        <property name="billingAddressRequired" type="java.lang.Boolean"/>
+        <property name="billingAddressParameters" type="com.checkout.hybris.facades.beans.GooglePayBillingAddressParametersFormatData"/>
+    </bean>
+
+    <bean class="com.checkout.hybris.facades.beans.GooglePayBillingAddressParametersFormatData">
+        <property name="format" type="java.lang.String"/>
+    </bean>
+
+    <bean class="com.checkout.hybris.facades.beans.GooglePayClientSettingsData">
+        <property name="environment" type="java.lang.String"/>
+    </bean>
+
+    <bean class="com.checkout.hybris.facades.beans.GooglePayTransactionInfoData">
+        <property name="currencyCode" type="java.lang.String"/>
+        <property name="totalPrice" type="java.lang.String"/>
+        <property name="totalPriceStatus" type="java.lang.String"/>
+    </bean>
 </beans>

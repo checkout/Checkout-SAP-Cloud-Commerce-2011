@@ -50,52 +50,56 @@
         <property name="errorMessage" type="java.lang.String"/>
     </bean>
 
-    <bean class="com.checkout.dto.order.ApplePayPaymentRequest">
+    <bean class="com.checkout.dto.order.ApplePayValidateMerchantRequestWsDTO">
+        <property name="validationURL" type="java.lang.String"/>
+    </bean>
+
+    <bean class="com.checkout.dto.order.ApplePayPaymentRequestWsDTO">
         <property name="supportedNetworks" type="java.util.Set&lt;java.lang.String&gt;"/>
         <property name="merchantCapabilities" type="java.util.Set&lt;java.lang.String&gt;"/>
         <property name="countryCode" type="java.lang.String"/>
         <property name="currencyCode" type="java.lang.String"/>
-        <property name="total" type="com.checkout.dto.order.ApplePayTotal"/>
+        <property name="total" type="com.checkout.dto.order.ApplePayTotalWsDTO"/>
         <property name="requiredBillingContactFields" type="java.util.List&lt;java.lang.String>"/>
     </bean>
 
-    <bean class="com.checkout.dto.order.ApplePayTotal">
+    <bean class="com.checkout.dto.order.ApplePayTotalWsDTO">
         <property name="label" type="java.lang.String"/>
         <property name="amount" type="java.lang.String"/>
         <property name="type" type="java.lang.String"/>
     </bean>
 
-    <bean class="com.checkout.dto.order.GooglePayMerchantConfiguration">
-        <property name="baseCardPaymentMethod" type="com.checkout.dto.order.BaseCardPaymentMethod"/>
-        <property name="clientSettings" type="com.checkout.dto.order.GooglePayClientSettings"/>
+    <bean class="com.checkout.dto.order.GooglePayMerchantConfigurationWsDTO">
+        <property name="baseCardPaymentMethod" type="com.checkout.dto.order.BaseCardPaymentMethodWsDTO"/>
+        <property name="clientSettings" type="com.checkout.dto.order.GooglePayClientSettingsWsDTO"/>
         <property name="gateway" type="java.lang.String"/>
         <property name="gatewayMerchantId" type="java.lang.String"/>
         <property name="merchantName" type="java.lang.String"/>
         <property name="merchantId" type="java.lang.String"/>
-        <property name="transactionInfo" type="com.checkout.dto.order.GooglePayTransactionInfo"/>
+        <property name="transactionInfo" type="com.checkout.dto.order.GooglePayTransactionInfoWsDTO"/>
     </bean>
 
-    <bean class="com.checkout.dto.order.BaseCardPaymentMethod">
+    <bean class="com.checkout.dto.order.BaseCardPaymentMethodWsDTO">
         <property name="type" type="java.lang.String"/>
-        <property name="parameters" type="com.checkout.dto.order.BaseCardPaymentMethodParameters"/>
+        <property name="parameters" type="com.checkout.dto.order.BaseCardPaymentMethodParametersWsDTO"/>
     </bean>
 
-    <bean class="com.checkout.dto.order.BaseCardPaymentMethodParameters">
+    <bean class="com.checkout.dto.order.BaseCardPaymentMethodParametersWsDTO">
         <property name="allowedAuthMethods" type="java.util.Set&lt;java.lang.String&gt;"/>
         <property name="allowedCardNetworks" type="java.util.Set&lt;java.lang.String&gt;"/>
         <property name="billingAddressRequired" type="java.lang.Boolean"/>
-        <property name="billingAddressParameters" type="com.checkout.dto.order.GooglePayBillingAddressParametersFormat"/>
+        <property name="billingAddressParameters" type="com.checkout.dto.order.GooglePayBillingAddressParametersFormatWsDTO"/>
     </bean>
 
-    <bean class="com.checkout.dto.order.GooglePayBillingAddressParametersFormat">
+    <bean class="com.checkout.dto.order.GooglePayBillingAddressParametersFormatWsDTO">
         <property name="format" type="java.lang.String"/>
     </bean>
 
-    <bean class="com.checkout.dto.order.GooglePayClientSettings">
+    <bean class="com.checkout.dto.order.GooglePayClientSettingsWsDTO">
         <property name="environment" type="java.lang.String"/>
     </bean>
 
-    <bean class="com.checkout.dto.order.GooglePayTransactionInfo">
+    <bean class="com.checkout.dto.order.GooglePayTransactionInfoWsDTO">
         <property name="currencyCode" type="java.lang.String"/>
         <property name="totalPrice" type="java.lang.String"/>
         <property name="totalPriceStatus" type="java.lang.String"/>

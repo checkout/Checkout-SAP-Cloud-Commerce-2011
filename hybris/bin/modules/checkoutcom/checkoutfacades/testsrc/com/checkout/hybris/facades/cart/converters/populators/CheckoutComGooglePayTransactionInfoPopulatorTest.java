@@ -1,6 +1,6 @@
 package com.checkout.hybris.facades.cart.converters.populators;
 
-import com.checkout.dto.order.GooglePayTransactionInfo;
+import com.checkout.hybris.facades.beans.GooglePayTransactionInfoData;
 import de.hybris.bootstrap.annotations.UnitTest;
 import de.hybris.platform.commercefacades.order.data.CartData;
 import de.hybris.platform.commercefacades.product.data.PriceData;
@@ -20,7 +20,7 @@ public class CheckoutComGooglePayTransactionInfoPopulatorTest {
     private final CheckoutComGooglePayTransactionInfoPopulator testObj = new CheckoutComGooglePayTransactionInfoPopulator();
 
     private final CartData source = new CartData();
-    private final GooglePayTransactionInfo target = new GooglePayTransactionInfo();
+    private final GooglePayTransactionInfoData target = new GooglePayTransactionInfoData();
 
     @Test(expected = IllegalArgumentException.class)
     public void populate_WhenSourceIsNull_ShouldThrowException() {

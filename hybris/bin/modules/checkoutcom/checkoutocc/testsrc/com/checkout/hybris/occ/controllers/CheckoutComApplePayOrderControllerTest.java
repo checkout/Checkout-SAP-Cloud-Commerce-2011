@@ -1,5 +1,6 @@
 package com.checkout.hybris.occ.controllers;
 
+import com.checkout.dto.order.ApplePayValidateMerchantRequestWsDTO;
 import com.checkout.dto.order.PlaceWalletOrderWsDTO;
 import com.checkout.hybris.facades.address.CheckoutComWalletAddressFacade;
 import com.checkout.hybris.facades.beans.*;
@@ -22,6 +23,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class CheckoutComApplePayOrderControllerTest {
 
+    public static final String VALIDATION_URL = "validationURL";
     @InjectMocks
     private CheckoutComApplePayOrderController testObj;
 
@@ -42,8 +44,8 @@ public class CheckoutComApplePayOrderControllerTest {
     private ApplePayAdditionalAuthInfo paymentDataMock;
     @Mock
     private PlaceWalletOrderDataResponse placeWalletOrderDataResponseMock;
-    @Mock
-    private ApplePayValidateMerchantRequestData validateMerchantRequestDataMock;
+
+    private ApplePayValidateMerchantRequestWsDTO validateMerchantRequestWsDTOStub = new ApplePayValidateMerchantRequestWsDTO();
 
     @Test
     public void placeOrder_ShouldPlaceOrderWithApplePay() {
@@ -59,9 +61,11 @@ public class CheckoutComApplePayOrderControllerTest {
 
     @Test
     public void requestPaymentSession_ShouldCallWalletOrderFacade() {
-        testObj.requestPaymentSession(validateMerchantRequestDataMock);
+        validateMerchantRequestWsDTOStub.setValidationURL(VALIDATION_URL);
 
-        verify(checkoutComApplePayFacadeMock).requestApplePayPaymentSession(validateMerchantRequestDataMock);
+        testObj.requestPaymentSession(validateMerchantRequestWsDTOStub);
+
+        verify(checkoutComApplePayFacadeMock).requestApplePayPaymentSession(any(ApplePayValidateMerchantRequestData.class));
     }
 
     @Test

@@ -1,8 +1,20 @@
 import { Component, OnInit, ChangeDetectionStrategy, AfterViewInit, Input, Output, OnDestroy, NgZone, EventEmitter } from '@angular/core';
 import { FormGroup, ValidatorFn } from '@angular/forms';
-import { FramesConfig, FramesLocalization, FrameElementIdentifier, FrameElement, FrameValidationChangedEvent, FramePaymentMethodChangedEvent, FrameCardValidationChangedEvent, FrameCardTokenizedEvent, FrameCardTokenizationFailedEvent, FramesStyle } from './interfaces';
+import {
+  FramesConfig,
+  FramesLocalization,
+  FrameElementIdentifier,
+  FrameElement,
+  FrameValidationChangedEvent,
+  FramePaymentMethodChangedEvent,
+  FrameCardValidationChangedEvent,
+  FrameCardTokenizedEvent,
+  FrameCardTokenizationFailedEvent,
+  FramesStyle,
+  FramesCardholder
+} from './interfaces';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
-import { takeUntil, switchMap, skipWhile, first } from 'rxjs/operators';
+import { takeUntil, switchMap, skipWhile, first, filter } from 'rxjs/operators';
 import { CheckoutComPaymentService } from '../../../core/services/checkout-com-payment.service';
 import { UserIdService, WindowRef } from '@spartacus/core';
 
@@ -14,6 +26,7 @@ import { UserIdService, WindowRef } from '@spartacus/core';
 export class CheckoutComFramesFormComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() submitEvent: Observable<any> = null; // required
   @Input() form = new FormGroup({});
+  @Input() cardholderStream: Observable<FramesCardholder> = null;
   @Input() localization: FramesLocalization = null;
   @Input() cardNumberInputName = 'cardNumber';
   @Input() expiryDateInputName = 'expiryDate';
@@ -57,6 +70,18 @@ export class CheckoutComFramesFormComponent implements OnInit, AfterViewInit, On
     if (this.windowRef.isBrowser()){
       this.listenForFramesEvents();
       this.listenForSubmitEvent();
+      this.listenForCardHolder();
+    }
+  }
+
+  private listenForCardHolder() {
+    if (this.cardholderStream) {
+      this.cardholderStream.pipe(
+        filter(Boolean),
+        takeUntil(this.drop)
+      ).subscribe((cardholder) => {
+        this.modifyFramesCardholder(cardholder);
+      });
     }
   }
 
@@ -309,6 +334,32 @@ export class CheckoutComFramesFormComponent implements OnInit, AfterViewInit, On
       }
     };
   }
+
+  private modifyFramesCardholder(cardholder: FramesCardholder): boolean {
+    if (cardholder == null) {
+      return;
+    }
+
+    if (!this.framesInitialized && this.config) {
+      this.config.cardholder = cardholder;
+      return;
+    }
+
+    const Frames: any = window['Frames']; // tslint:disable-line
+    if (!Frames) {
+      return false;
+    }
+    try {
+      Frames.cardholder = cardholder;
+      if (this.config) {
+        this.config.cardholder = cardholder;
+      }
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
 
   ngOnDestroy() {
     this.isDestroyed = true;

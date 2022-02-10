@@ -1,5 +1,9 @@
 import { Component, ChangeDetectionStrategy, ViewContainerRef, OnDestroy } from '@angular/core';
-import { PlaceOrderComponent, CheckoutReplenishmentFormService, LaunchDialogService, CheckoutStepService } from '@spartacus/storefront';
+import {
+  CheckoutReplenishmentFormService,
+  CheckoutStepService,
+  PlaceOrderComponent
+} from '@spartacus/checkout/components';
 import { RoutingService, ORDER_TYPE, WindowRef } from '@spartacus/core';
 import { FormBuilder } from '@angular/forms';
 import { CheckoutComCheckoutService } from '../../../core/services/checkout-com-checkout.service';
@@ -7,6 +11,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { makeFormErrorsVisible } from '../../../core/shared/make-form-errors-visible';
+import { LaunchDialogService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-place-order',

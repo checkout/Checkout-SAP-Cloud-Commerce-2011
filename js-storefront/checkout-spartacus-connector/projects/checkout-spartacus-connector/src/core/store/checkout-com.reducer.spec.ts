@@ -4,8 +4,7 @@ import { initialState, reducer } from './checkout-com.reducer';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApmData, PaymentType } from '../model/ApmData';
 import { CheckoutComState } from './checkout-com.state';
-import { CheckoutActions } from '@spartacus/core';
-
+import { CheckoutActions } from '@spartacus/checkout/core';
 
 describe('CheckoutComReducer', () => {
 

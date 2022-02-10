@@ -7,13 +7,13 @@ import { catchError, exhaustMap, map, mergeMap, switchMap } from 'rxjs/operators
 import { CheckoutComOccAdapter } from '../adapters/occ/checkout-com-occ.adapter';
 import {
   CartActions,
-  CheckoutActions,
   GlobalMessageActions,
   GlobalMessageType,
   normalizeHttpError,
   Translatable,
   GlobalMessage
 } from '@spartacus/core';
+import { CheckoutActions } from '@spartacus/checkout/core';
 import { CheckoutComRedirect } from '../interfaces';
 import { ApmData } from '../model/ApmData';
 import { GooglePayMerchantConfiguration, PlaceOrderResponse } from '../model/GooglePay';
