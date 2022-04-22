@@ -5,10 +5,6 @@ import { CheckoutComPaymentMethodModule } from '../checkout-com-payment-method/c
 import { CheckoutComPlaceOrderModule } from '../checkout-com-place-order/checkout-com-place-order.module';
 import { CheckoutComApmModule } from '../checkout-com-apm-component/checkout-com-apm.module';
 import { CmsConfig, provideConfig } from '@spartacus/core';
-import {
-  OrderConfirmationItemsComponent,
-  OrderConfirmationTotalsComponent,
-} from '@spartacus/storefront';
 import { CheckoutComCheckoutGuard } from '../../../core/guards/checkout-com-checkout.guard';
 import { CheckoutComReviewSubmitModule } from '../checkout-com-review-submit/checkout-com-review-submit.module';
 import { CheckoutComOrderReviewModule } from '../checkout-com-order-review/checkout-com-order-review.module';
@@ -19,6 +15,7 @@ import { CheckoutComOrderDetailItemsComponent } from '../checkout-com-order-deta
 import { CheckoutComOrderDetailItemsModule } from '../checkout-com-order-detail-items/checkout-com-order-detail-items.module';
 import { CheckoutComOrderDetailShippingModule } from '../checkout-com-order-detail-shipping/checkout-com-order-detail-shipping.module';
 import { CheckoutComOrderDetailShippingComponent } from '../checkout-com-order-detail-shipping/checkout-com-order-detail-shipping.component';
+import { OrderConfirmationItemsComponent, OrderConfirmationTotalsComponent } from '@spartacus/checkout/components';
 
 @NgModule({
   declarations: [],

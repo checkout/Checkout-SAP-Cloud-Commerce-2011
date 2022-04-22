@@ -7,11 +7,12 @@ This [Checkout.com](https://www.checkout.com/) library adds payments capabilitie
 This library is tailored to the [Spartacus](https://sap.github.io/spartacus-docs/) Storefront:
 
 This release is compatible with:
-* Spartacus: version 3.2
+* Spartacus: version 4.2.x
 * SAP Commerce Cloud: version 2011
 * Angular CLI: Version 10.1 or later, < 11.
 * Node.js: The most recent 12.x version is recommended, < 13.
 * Yarn: Version 1.15 or later.
+* Requires Spartacus Feature Modules: `checkout` and `order`
 
 ## Development 
 Install the [Checkout.com SAP Commerce Cloud Connector](https://github.com/checkout/Checkout-SAP-Cloud-Commerce-2011).
@@ -43,6 +44,12 @@ If you don't want to fork, you can `extend` components, copy the template and th
 
 
 ## Release notes
+
+### Release 4.2.0 
+Use this release if you are using Spartacus 4.2.x
+* Upgrade to Spartacus 4.2
+* Show first name + last name as the card account holder
+* Fix for ApplePay transaction status
 
 ### Release 1.0.1
 * Added support for server-side rendering (SSR)

@@ -6,6 +6,7 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApmPaymentDetails } from '../../../interfaces';
 import { EventEmitter } from '@angular/core';
+import { PaymentType } from '../../../../core/model/ApmData';
 
 describe('CheckoutComApmIdealComponent', () => {
   let component: CheckoutComApmIdealComponent;
@@ -75,7 +76,7 @@ describe('CheckoutComApmIdealComponent', () => {
     setPaymentDetails
       .subscribe((event) => {
       expect(event.billingAddress).toBeNull();
-      expect(event.paymentDetails).toEqual({ type: 'IDEAL', bic: 'INGDESMMXXX' });
+      expect(event.paymentDetails).toEqual({ type: PaymentType.iDeal, bic: 'INGDESMMXXX' });
 
       done();
     });
@@ -101,7 +102,7 @@ describe('CheckoutComApmIdealComponent', () => {
     setPaymentDetails
       .subscribe((event) => {
       expect(event.billingAddress).toEqual(billingAddress);
-      expect(event.paymentDetails).toEqual({ type: 'IDEAL', bic: 'INGDESMMXXX' });
+      expect(event.paymentDetails).toEqual({ type: PaymentType.iDeal, bic: 'INGDESMMXXX' });
 
       done();
     });

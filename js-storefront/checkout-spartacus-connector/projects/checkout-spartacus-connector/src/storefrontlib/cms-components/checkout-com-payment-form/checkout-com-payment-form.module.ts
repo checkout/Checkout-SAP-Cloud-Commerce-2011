@@ -10,8 +10,8 @@ import {
   IconModule,
   SpinnerModule,
   FormErrorsModule,
-  PaymentMethodModule,
-  PaymentFormModule } from '@spartacus/storefront';
+} from '@spartacus/storefront';
+import { PaymentFormModule, PaymentMethodModule } from '@spartacus/checkout/components';
 /* CheckoutCom */
 import { CheckoutComStoreModule } from '../../../core/store/checkout-com-store.module';
 import { CheckoutComFramesFormModule } from '../checkout-com-frames-form/checkout-com-frames-form.module';

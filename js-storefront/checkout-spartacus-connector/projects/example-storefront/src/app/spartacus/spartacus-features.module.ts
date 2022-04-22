@@ -1,16 +1,12 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import {
   AnonymousConsentsModule,
   AuthModule,
   CartModule,
   CartOccModule,
-  CheckoutModule,
-  CheckoutOccModule,
   CostCenterOccModule,
   ProductModule,
-  ProductOccModule,
-  UserOccTransitionalModule,
-  UserTransitionalModule
+  ProductOccModule, UserOccTransitionalModule, UserTransitionalModule,
 } from '@spartacus/core';
 import {
   AddressBookModule,
@@ -22,8 +18,6 @@ import {
   CartComponentModule,
   CartPageEventModule,
   CategoryNavigationModule,
-  CheckoutComponentModule,
-  CheckoutLoginModule,
   CmsParagraphModule,
   ConsentManagementModule,
   FooterNavigationModule,
@@ -37,11 +31,6 @@ import {
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
-  OrderCancellationModule,
-  OrderConfirmationModule,
-  OrderDetailsModule,
-  OrderHistoryModule,
-  OrderReturnModule,
   PaymentMethodsModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
@@ -54,18 +43,26 @@ import {
   ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
-  ReplenishmentOrderConfirmationModule,
-  ReplenishmentOrderDetailsModule,
-  ReplenishmentOrderHistoryModule,
-  ReturnRequestDetailModule,
-  ReturnRequestListModule,
   SearchBoxModule,
   SiteContextSelectorModule,
   StockNotificationModule,
   TabParagraphContainerModule,
   WishListModule
 } from '@spartacus/storefront';
-import {UserFeatureModule} from './features/user/user-feature.module';
+import { UserFeatureModule } from './features/user/user-feature.module';
+import { ReplenishmentOrderConfirmationModule } from '@spartacus/checkout/components';
+import {
+  OrderCancellationModule,
+  OrderDetailsModule,
+  OrderHistoryModule,
+  OrderReturnModule,
+  ReplenishmentOrderDetailsModule,
+  ReplenishmentOrderHistoryModule,
+  ReturnRequestDetailModule,
+  ReturnRequestListModule
+} from '@spartacus/order/components';
+import { OrderFeatureModule } from './features/order/order-feature.module';
+import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
 
 @NgModule({
   declarations: [],
@@ -123,14 +120,14 @@ import {UserFeatureModule} from './features/user/user-feature.module';
     // Cart UI,
     CartComponentModule,
     WishListModule,
-    // Checkout Core,
-    CheckoutModule.forRoot(),
-    CheckoutOccModule,
-    CostCenterOccModule,
-    // Checkout UI,
-    CheckoutLoginModule,
-    CheckoutComponentModule,
-    OrderConfirmationModule,
+    // // Checkout Core,
+    // CheckoutModule,
+    // CheckoutOccModule,
+    // CostCenterOccModule,
+    // // Checkout UI,
+    // CheckoutLoginModule,
+    // CheckoutComponentsModule,
+    // OrderConfirmationModule,
     // Order,
     OrderHistoryModule,
     OrderDetailsModule,
@@ -146,7 +143,11 @@ import {UserFeatureModule} from './features/user/user-feature.module';
     HomePageEventModule,
     CartPageEventModule,
     ProductPageEventModule,
+
+    // feature modules
     UserFeatureModule,
+    CheckoutFeatureModule,
+    OrderFeatureModule,
   ]
 })
 export class SpartacusFeaturesModule {

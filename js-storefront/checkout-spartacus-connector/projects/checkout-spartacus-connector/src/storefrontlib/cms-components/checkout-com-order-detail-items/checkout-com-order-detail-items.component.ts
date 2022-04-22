@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
-import { OrderDetailItemsComponent, OrderDetailsService, PromotionService } from '@spartacus/storefront';
 import { Consignment, PromotionLocation, PromotionResult } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { OrderDetailItemsComponent, OrderDetailsService } from '@spartacus/order/components';
 
 @Component({
   selector: 'cx-order-details-items',
@@ -21,22 +21,17 @@ export class CheckoutComOrderDetailItemsComponent extends OrderDetailItemsCompon
   // OOTB
   promotionLocation: PromotionLocation = PromotionLocation.Order;
   order$: Observable<any> = this.orderDetailsService.getOrderDetails();
-  orderPromotions$: Observable<PromotionResult[]>;
   others$: Observable<Consignment[]>;
   completed$: Observable<Consignment[]>;
   cancel$: Observable<Consignment[]>;
 
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    protected promotionService: PromotionService
   ) {
-    super(orderDetailsService, promotionService);
+    super(orderDetailsService);
   }
 
   ngOnInit() {
-    this.orderPromotions$ = this.promotionService.getOrderPromotions(
-      this.promotionLocation
-    );
     this.others$ = this.otherStatus(...this.completedValues, ...this.cancelledValues);
     this.completed$ = this.exactStatus(this.completedValues);
     this.cancel$ = this.exactStatus(this.cancelledValues);
