@@ -249,7 +249,7 @@ class CheckoutComCCPaymentsTest extends AbstractCheckoutComPaymentsTest {
         then: "he is able to do so"
         with(response) {
             status == SC_OK
-            data.accountHolderName == customer.id
+            data.accountHolderName != null
             data.paymentToken != null
         }
         where:
@@ -272,7 +272,7 @@ class CheckoutComCCPaymentsTest extends AbstractCheckoutComPaymentsTest {
         with(response) {
             status == SC_OK
             data.payments.size() == 1
-            data.payments[0].accountHolderName == customer.id
+            data.payments[0].accountHolderName != null
             data.payments[0].paymentToken != null
         }
 

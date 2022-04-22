@@ -1,11 +1,12 @@
 import { Action } from '@ngrx/store';
-import { Address, PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID, StateUtils, PaymentDetails, Order, HttpErrorModel } from '@spartacus/core';
+import { Address, PROCESS_FEATURE, StateUtils, PaymentDetails, Order, HttpErrorModel } from '@spartacus/core';
 import { ApmPaymentDetails, CheckoutComPaymentDetails } from '../../storefrontlib/interfaces';
 import { CheckoutComRedirect, KlarnaInitParams } from '../interfaces';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApmData } from '../model/ApmData';
 import { GooglePayMerchantConfiguration, PlaceOrderResponse } from '../model/GooglePay';
 import { ApplePayAuthorization, ApplePayPaymentRequest } from '../model/ApplePay';
+import { PLACED_ORDER_PROCESS_ID } from '@spartacus/checkout/core';
 
 export const SET_OCC_MERCHANT_KEY = 'Requesting OCC merchant key';
 export const SET_OCC_MERCHANT_KEY_FAIL = 'Request OCC merchant key FAIL';

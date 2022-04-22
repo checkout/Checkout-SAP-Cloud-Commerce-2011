@@ -32,6 +32,10 @@
             </label>
         </div>
     </sec:authorize>
+    <label for="card-holder-name"><spring:theme code="checkoutcom.multi.cardholdername.label" text="Card number"/></label>
+    <div class="input-container card-holder">
+        <input type="text" value="${fn:trim(fn:escapeXml(billingAddress.firstName).concat(' ').concat(fn:escapeXml(billingAddress.lastName)))}" id="cardholdername" required>
+    </div>
 
     <label for="card-number"><spring:theme code="checkoutcom.multi.cardnumber.label" text="Card number"/></label>
     <div class="input-container card-number">
@@ -105,6 +109,9 @@
 
 </form>
 
+
+
+
 <form:form id="checkoutComPaymentTokenForm"
            modelAttribute="paymentDataForm"
            method="POST"
@@ -117,4 +124,6 @@
     <form:hidden id="validToYear" path="formAttributes['${'validToYear'}']" value=""/>
     <form:hidden id="saveCard" path="formAttributes['${'saveCard'}']" value=""/>
     <form:hidden id="type" path="formAttributes['${'type'}']" value="${paymentMethod}"/>
+    <form:hidden id="accountHolderName" path="formAttributes['${'accountHolderName'}']"
+                 value="${fn:trim(fn:escapeXml(billingAddress.firstName).concat(' ').concat(fn:escapeXml(billingAddress.lastName)))}"/>
 </form:form>

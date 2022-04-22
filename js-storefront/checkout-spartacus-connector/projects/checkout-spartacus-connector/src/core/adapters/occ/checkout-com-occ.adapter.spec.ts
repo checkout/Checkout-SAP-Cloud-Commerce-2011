@@ -1,7 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CheckoutComOccAdapter } from './checkout-com-occ.adapter';
-import { Address, OccConfig, OccEndpointsService, OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
+import {
+  Address,
+  OccConfig,
+  OccEndpointsService,
+  OCC_USER_ID_ANONYMOUS,
+  DynamicAttributes,
+  BaseOccUrlProperties
+} from '@spartacus/core';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { defaultOccCheckoutComConfig } from './default-occ-checkout-com-config';
@@ -22,9 +29,10 @@ const MockOccModuleConfig: OccConfig = {
 };
 
 class MockOccEndpointsService {
-  getUrl(endpoint: string, urlParams?: object, _queryParams?: object) {
+  buildUrl(endpoint: string, attributes?: DynamicAttributes, propertiesToOmit?: BaseOccUrlProperties) {
     const pattern = defaultOccCheckoutComConfig.backend.occ.endpoints[endpoint];
     let templateString = pattern;
+    const urlParams = attributes?.hasOwnProperty('urlParams') ? attributes.urlParams : [];
 
     if (urlParams){
 
@@ -68,7 +76,7 @@ describe('CheckoutComOccAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     occEndpointsService = TestBed.inject(OccEndpointsService);
 
-    spyOn(occEndpointsService, 'getUrl').and.callThrough();
+    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
   });
 
   it('should be created', () => {
@@ -78,7 +86,7 @@ describe('CheckoutComOccAdapter', () => {
   describe('getMerchantKey', () => {
     it('should return key', () => {
       service.getMerchantKey(userId).subscribe(res => expect(res).toEqual('pk_test_d4727781-a79c-460e-9773-05d762c63e8f'));
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('merchantKey');
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('merchantKey');
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -166,7 +174,9 @@ describe('CheckoutComOccAdapter', () => {
           cardNumber: '4242424242424242'
         }).subscribe(res => expect(res).toBeTruthy());
 
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('setPaymentDetails', {cartId, userId});
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('setPaymentDetails', {
+        urlParams: {cartId, userId}
+      });
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -359,7 +369,12 @@ describe('CheckoutComOccAdapter', () => {
         lastName: 'Doe',
       };
       const saved = false;
-      service.authoriseGooglePayPayment(userId, cartId, token, billingAddress, saved).subscribe();
+      service.authoriseGooglePayPayment(userId, cartId, token, billingAddress, saved)
+        .subscribe((response) => {
+          if(response.redirectUrl){
+            window.location.href = response.redirectUrl;
+          }
+        });
 
       const mockReq = httpMock.expectOne(req => {
         return (

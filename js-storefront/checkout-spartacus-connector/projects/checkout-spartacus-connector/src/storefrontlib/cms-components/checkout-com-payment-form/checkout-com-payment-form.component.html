@@ -3,8 +3,28 @@
   <form (ngSubmit)="next()" [formGroup]="paymentForm" class="my-3">
     <div class="row">
       <div class="col-md-12 col-xl-10">
+        <div class="form-group">
+          <label>
+            <span class="label-content">{{
+                'paymentForm.accountHolderName.label' | cxTranslate
+              }}</span>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="{{
+                'paymentForm.accountHolderName.placeholder' | cxTranslate
+              }}"
+              formControlName="accountHolderName"
+            />
+            <cx-form-errors
+              [control]="paymentForm.get('accountHolderName')"
+            ></cx-form-errors>
+          </label>
+        </div>
+
         <lib-checkout-com-frames-form
             [form]="paymentForm"
+            [cardholderStream]="framesCardholder$"
             [submitEvent]="submitEvent$"
             [localization]="framesLocalization$ | async"
             (paymentMethodChange)="framesPaymentMethodChanged($event)"

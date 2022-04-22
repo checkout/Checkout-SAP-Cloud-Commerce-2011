@@ -7,8 +7,8 @@ This [Checkout.com](https://www.checkout.com/) library adds payments capabilitie
 This library is tailored to the [Spartacus](https://sap.github.io/spartacus-docs/) Storefront:
 
 This release is compatible with:
-* Spartacus: version 3.2
-* Node module `checkout-spartacus-translations` v1.0.2
+* Spartacus: version 4.2
+* Node module `checkout-spartacus-translations` v4.2.2
 * SAP Commerce Cloud: version 2011
 * Angular CLI: Version 10.1 or later, < 11.
 * Node.js: The most recent 12.x version is recommended, < 13.
@@ -28,7 +28,7 @@ import { checkoutComTranslationChunkConfig, checkoutComTranslations } from '@che
     provideConfig({
       featureModules: {
         CheckoutComComponentsModule: {
-          module: () => import('checkout-spartacus-connector').then(m => m.CheckoutComComponentsModule),
+          module: () => import('@checkout.com/checkout-spartacus-connector').then(m => m.CheckoutComComponentsModule),
           cmsComponents: [
             'CheckoutPaymentDetails',
             'CheckoutPlaceOrder',
@@ -70,13 +70,27 @@ At the bottom of the body of your index.html, you will have to add the Frames sc
 ```
 
 ## Extending components
-The source code of the connector can be found on [GitHub](https://github.com/checkout/Checkout-SAP-Cloud-Commerce-2011). 
+The source code of the connector can be found on 
+* [GitHub SAP CX 2011](https://github.com/checkout/Checkout-SAP-Cloud-Commerce-2011) 
+* [GitHub SAP CX 2015](https://github.com/checkout/Checkout-SAP-Cloud-Commerce-2105) 
 
 If you need to extend components, you can fork the repository so you are able to upgrade to future releases. In this fork, you can make your changes and import the library in your storefront.
 
 If you don't want to fork, you can `extend` components, copy the template and the Angular Component into your project. This will mean that you have to be vigilant when a new release of the library is integrated.
 
 ## Release notes
+
+### Release 4.2.3 
+Include binaries. Previous 4.2.x releases are missing binaries.
+
+### Release 4.2.2 
+Update readme
+
+### Release 4.2.0 
+Use this release if you are using Spartacus 4.2.x
+* Upgrade to Spartacus 4.2
+* Show first name + last name as the card account holder
+* Fix for ApplePay transaction status
 
 ### Release 1.0.2
 * Source code now publicly available 
