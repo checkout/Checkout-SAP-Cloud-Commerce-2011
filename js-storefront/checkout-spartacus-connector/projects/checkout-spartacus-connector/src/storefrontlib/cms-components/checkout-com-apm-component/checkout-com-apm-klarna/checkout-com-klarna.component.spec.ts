@@ -3,10 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CheckoutComKlarnaComponent } from './checkout-com-klarna.component';
 import { of } from 'rxjs';
 import { PaymentType } from '../../../../core/model/ApmData';
-import createSpy = jasmine.createSpy;
 import { CheckoutComApmService } from '../../../../core/services/checkout-com-apm.service';
-import { GlobalMessageService, I18nTestingModule, CheckoutDeliveryService } from '@spartacus/core';
+import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
 import { CheckoutComPaymentService } from '../../../../core/services/checkout-com-payment.service';
+import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
+import createSpy = jasmine.createSpy;
 
 const apm = {code: PaymentType.Klarna};
 
@@ -22,7 +23,7 @@ class MockGlobalMessageService {
   add = createSpy();
 }
 
-class MockCheckoutDeliveryService {
+class MockCheckoutDeliveryFacade {
   getDeliveryAddress() {
     return of({country: 'ES'});
   }
@@ -45,7 +46,7 @@ describe('CheckoutComKlarnaComponent', () => {
         {provide: CheckoutComApmService, useClass: CheckoutComApmServiceStub},
         {provide: GlobalMessageService, useClass: MockGlobalMessageService},
         {provide: CheckoutComPaymentService, useClass: CheckoutComPaymentStub},
-        {provide: CheckoutDeliveryService, useClass: MockCheckoutDeliveryService},
+        {provide: CheckoutDeliveryFacade, useClass: MockCheckoutDeliveryFacade},
       ]
     }).compileComponents();
   });

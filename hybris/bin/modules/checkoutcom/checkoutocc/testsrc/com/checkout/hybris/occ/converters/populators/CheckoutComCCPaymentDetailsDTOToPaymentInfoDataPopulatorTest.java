@@ -22,6 +22,7 @@ public class CheckoutComCCPaymentDetailsDTOToPaymentInfoDataPopulatorTest {
     private static final String VALID_TO_YEAR = "2022";
     private static final String CARD_TYPE_STRIPPED_SPACES = "AmericanExpress";
     private static final String CARD_BIN = "123456";
+    private static final String ACCOUNT_HOLDER_NAME = "John Doe";
 
     private CheckoutComCCPaymentDetailsDTOToPaymentInfoDataPopulator testObj = new CheckoutComCCPaymentDetailsDTOToPaymentInfoDataPopulator();
 
@@ -41,6 +42,7 @@ public class CheckoutComCCPaymentDetailsDTOToPaymentInfoDataPopulatorTest {
         paymentTokenForm.setExpiryMonth(VALID_TO_MONTH);
         paymentTokenForm.setExpiryYear(VALID_TO_YEAR);
         paymentTokenForm.setCardType(cardTypeWsDTO);
+        paymentTokenForm.setAccountHolderName(ACCOUNT_HOLDER_NAME);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -62,6 +64,7 @@ public class CheckoutComCCPaymentDetailsDTOToPaymentInfoDataPopulatorTest {
         assertEquals(VALID_TO_MONTH, ccPaymentInfoData.getExpiryMonth());
         assertEquals(VALID_TO_YEAR, ccPaymentInfoData.getExpiryYear());
         assertEquals(CARD_TYPE_STRIPPED_SPACES, ccPaymentInfoData.getCardType());
+        assertEquals(ACCOUNT_HOLDER_NAME, ccPaymentInfoData.getAccountHolderName());
         assertFalse(ccPaymentInfoData.isSaved());
     }
 
@@ -78,5 +81,6 @@ public class CheckoutComCCPaymentDetailsDTOToPaymentInfoDataPopulatorTest {
         assertEquals(CARD_TYPE_STRIPPED_SPACES, ccPaymentInfoData.getCardType());
         assertTrue(ccPaymentInfoData.isSaved());
         assertEquals(CARD_BIN, ccPaymentInfoData.getCardBin());
+        assertEquals(ACCOUNT_HOLDER_NAME, ccPaymentInfoData.getAccountHolderName());
     }
 }

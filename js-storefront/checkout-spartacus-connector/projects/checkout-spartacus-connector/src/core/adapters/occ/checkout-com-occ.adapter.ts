@@ -1,5 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Address, ConverterService, OccEndpointsService, PAYMENT_DETAILS_SERIALIZER, Order, OCC_USER_ID_ANONYMOUS, InterceptorUtil, USE_CLIENT_TOKEN, Occ, ORDER_NORMALIZER, PAYMENT_DETAILS_NORMALIZER, PaymentDetails } from '@spartacus/core';
+import {
+  Address,
+  ConverterService,
+  OccEndpointsService,
+  Order,
+  OCC_USER_ID_ANONYMOUS,
+  InterceptorUtil,
+  USE_CLIENT_TOKEN,
+  Occ,
+  ORDER_NORMALIZER,
+  PaymentDetails,
+  PAYMENT_DETAILS_NORMALIZER,
+} from '@spartacus/core';
+import { PAYMENT_DETAILS_SERIALIZER } from '@spartacus/checkout/core';
 import { CheckoutComAdapter } from '../checkout-com.adapter';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -23,7 +36,7 @@ export class CheckoutComOccAdapter implements CheckoutComAdapter {
 
   getMerchantKey(userId: string): Observable<string> {
     return this.http.get<string>(
-      this.occEndpoints.getUrl('merchantKey'),
+      this.occEndpoints.buildUrl('merchantKey'),
       {
         responseType: 'text' as 'json',
         headers: this.getHeadersForUserId(userId)
@@ -33,7 +46,9 @@ export class CheckoutComOccAdapter implements CheckoutComAdapter {
 
   setPaymentAddress(cartId: string, userId: string, address: Address): Observable<any> {
     return this.http.post(
-      this.occEndpoints.getUrl('setPaymentAddress', {cartId, userId}),
+      this.occEndpoints.buildUrl('setPaymentAddress', {
+        urlParams: {cartId, userId},
+      }),
       {
         ...address
       },
@@ -43,7 +58,9 @@ export class CheckoutComOccAdapter implements CheckoutComAdapter {
 
   createPaymentDetails(userId: string, cartId: string, paymentDetails: CheckoutComPaymentDetails): Observable<PaymentDetails> {
     return this.http.post<CheckoutComPaymentDetails>(
-      this.occEndpoints.getUrl('setPaymentDetails', {cartId, userId}),
+      this.occEndpoints.buildUrl('setPaymentDetails', {
+        urlParams: {cartId, userId},
+      }),
       this.converter.convert(paymentDetails, PAYMENT_DETAILS_SERIALIZER),
       {headers: this.getHeadersForUserId(userId)}
     ).pipe(map((response) => this.converter.convert(response, PAYMENT_DETAILS_NORMALIZER)));
@@ -51,7 +68,9 @@ export class CheckoutComOccAdapter implements CheckoutComAdapter {
 
   createApmPaymentDetails(userId: string, cartId: string, paymentDetails: ApmPaymentDetails): Observable<PaymentDetails> {
     return this.http.post<ApmPaymentDetails>(
-      this.occEndpoints.getUrl('setApmPaymentDetails', {cartId, userId}),
+      this.occEndpoints.buildUrl('setApmPaymentDetails', {
+        urlParams: {cartId, userId},
+      }),
       paymentDetails,
       {headers: this.getHeadersForUserId(userId)}
     ).pipe(map(_ => this.converter.convert(paymentDetails, APM_PAYMENT_DETAILS_NORMALIZER)));
@@ -64,7 +83,9 @@ export class CheckoutComOccAdapter implements CheckoutComAdapter {
 
     return this.http
                .post<Occ.Order>(
-                 this.occEndpoints.getUrl('directPlaceOrder', {cartId, userId}),
+                 this.occEndpoints.buildUrl('directPlaceOrder', {
+                   urlParams: {cartId, userId},
+                 }),
                  {},
                  {headers: this.getHeadersForUserId(userId), params}
                )
@@ -73,7 +94,9 @@ export class CheckoutComOccAdapter implements CheckoutComAdapter {
 
   authorizeRedirectPlaceOrder(userId: string, cartId: string, sessionId: string): Observable<Order> {
     return this.http.post<Occ.Order>(
-      this.occEndpoints.getUrl(`redirectPlaceOrder`, {cartId, userId}),
+      this.occEndpoints.buildUrl(`redirectPlaceOrder`, {
+        urlParams: {cartId, userId},
+      }),
       {'cko-session-id': sessionId},
       {headers: this.getHeadersForUserId(userId)}
     ).pipe(this.converter.pipeable(ORDER_NORMALIZER));
@@ -81,7 +104,9 @@ export class CheckoutComOccAdapter implements CheckoutComAdapter {
 
   requestAvailableApms(userId: string, cartId: string): Observable<ApmData[]> {
     return this.http.get<AvailableApmResponseData>(
-      this.occEndpoints.getUrl('availableApms', {cartId, userId}),
+      this.occEndpoints.buildUrl('availableApms', {
+        urlParams: {cartId, userId},
+      }),
       {headers: this.getHeadersForUserId(userId)}
     ).pipe(
       pluck('availableApmConfigurations'),
@@ -93,9 +118,11 @@ export class CheckoutComOccAdapter implements CheckoutComAdapter {
     cartId: string
   ): Observable<GooglePayMerchantConfiguration> {
     return this.http.get<GooglePayMerchantConfiguration>(
-      this.occEndpoints.getUrl(
+      this.occEndpoints.buildUrl(
         `googlePayMerchantConfig`,
-        {cartId, userId},
+        {
+          urlParams: {cartId, userId},
+        },
       )
     );
   }
@@ -108,7 +135,9 @@ export class CheckoutComOccAdapter implements CheckoutComAdapter {
     saved: boolean
   ): Observable<PlaceOrderResponse> {
     return this.http.post<PlaceOrderResponse>(
-      this.occEndpoints.getUrl('googlePayPlaceOrder',{userId, cartId}),
+      this.occEndpoints.buildUrl('googlePayPlaceOrder',{
+        urlParams: {userId, cartId},
+      }),
       {
         token,
         billingAddress,
@@ -120,7 +149,9 @@ export class CheckoutComOccAdapter implements CheckoutComAdapter {
 
   getKlarnaInitParams(userId: string, cartId: string): Observable<KlarnaInitParams> {
     return this.http.get(
-      this.occEndpoints.getUrl('klarnaClientToken', {userId, cartId}),
+      this.occEndpoints.buildUrl('klarnaClientToken', {
+        urlParams: {cartId, userId},
+      }),
       {headers: this.getHeadersForUserId(userId)});
   }
 
@@ -129,7 +160,9 @@ export class CheckoutComOccAdapter implements CheckoutComAdapter {
     cartId: string
   ): Observable<ApplePayPaymentRequest> {
     return this.http.get<ApplePayPaymentRequest>(
-      this.occEndpoints.getUrl('applePayPaymentRequest', {userId, cartId})
+      this.occEndpoints.buildUrl('applePayPaymentRequest', {
+        urlParams: {cartId, userId},
+      })
     );
   }
 
@@ -139,7 +172,9 @@ export class CheckoutComOccAdapter implements CheckoutComAdapter {
     validationURL: string
   ): Observable<any> {
     return this.http.post<any>(
-      this.occEndpoints.getUrl('applePayRequestSession', {userId, cartId}),
+      this.occEndpoints.buildUrl('applePayRequestSession', {
+        urlParams: {cartId, userId},
+      }),
       {
         validationURL
       },
@@ -153,7 +188,9 @@ export class CheckoutComOccAdapter implements CheckoutComAdapter {
     request: any
   ): Observable<ApplePayAuthorization> {
     return this.http.post<ApplePayAuthorization>(
-      this.occEndpoints.getUrl('applePayPlaceOrder', {userId, cartId}),
+      this.occEndpoints.buildUrl('applePayPlaceOrder', {
+        urlParams: {cartId, userId},
+      }),
       {
         ...request
       },

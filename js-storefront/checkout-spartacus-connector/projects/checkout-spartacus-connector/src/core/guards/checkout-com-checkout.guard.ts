@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { CheckoutStepService, CheckoutStepType } from '@spartacus/storefront';
 import {
   ActiveCartService,
-  CheckoutPaymentService,
-  CheckoutService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingConfigService,
@@ -14,7 +11,9 @@ import {
 } from '@spartacus/core';
 import { CheckoutComCheckoutService } from '../services/checkout-com-checkout.service';
 import { getUserIdCartId } from '../shared/get-user-cart-id';
-import { catchError, finalize, map, switchMap, timeout } from 'rxjs/operators';
+import { catchError, map, switchMap, timeout } from 'rxjs/operators';
+import { CheckoutStepService } from '@spartacus/checkout/components';
+import { CheckoutFacade, CheckoutPaymentFacade, CheckoutStepType } from '@spartacus/checkout/root';
 
 @Injectable({
   providedIn: 'root',
@@ -26,10 +25,10 @@ export class CheckoutComCheckoutGuard implements CanActivate {
               protected globalMessageService: GlobalMessageService,
               protected routingConfigService: RoutingConfigService,
               protected checkoutStepService: CheckoutStepService,
-              protected checkoutPaymentService: CheckoutPaymentService,
+              protected checkoutPaymentFacade: CheckoutPaymentFacade,
               protected userIdService: UserIdService,
               protected activeCartService: ActiveCartService,
-              protected checkoutService: CheckoutService,
+              protected checkoutFacade: CheckoutFacade,
               protected semanticPathService: SemanticPathService
   ) {
   }
@@ -37,7 +36,7 @@ export class CheckoutComCheckoutGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
     const params = route.queryParams;
     if (params == null || typeof params !== 'object' || Object.keys(params).length === 0) {
-      return this.checkoutService.getOrderDetails().pipe(
+      return this.checkoutFacade.getOrderDetails().pipe(
         map((orderDetails) => {
           if (orderDetails && Object.keys(orderDetails).length !== 0) {
             return true;
@@ -50,7 +49,7 @@ export class CheckoutComCheckoutGuard implements CanActivate {
 
     if (params.authorized === false || params.authorized === 'false') {
       this.globalMessageService.add({key: 'checkoutReview.paymentAuthorizationError'}, GlobalMessageType.MSG_TYPE_ERROR);
-      this.checkoutPaymentService.resetSetPaymentDetailsProcess();
+      this.checkoutPaymentFacade.resetSetPaymentDetailsProcess();
     } else {
       const sessionId = params['cko-session-id'];
       if (sessionId) {

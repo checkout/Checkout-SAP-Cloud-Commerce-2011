@@ -1,6 +1,6 @@
 package com.checkout.hybris.facades.payment.wallet;
 
-import com.checkout.dto.order.ApplePayPaymentRequest;
+import com.checkout.hybris.facades.beans.ApplePayPaymentRequestData;
 import com.checkout.hybris.facades.beans.ApplePayValidateMerchantRequestData;
 
 /**
@@ -19,5 +19,5 @@ public interface CheckoutComApplePayFacade {
     /**
      * Create a basic payment request for the session cart that can be used to initialize the ApplePaySession in the browser
      */
-    ApplePayPaymentRequest getApplePayPaymentRequest();
+    ApplePayPaymentRequestData getApplePayPaymentRequest();
 }

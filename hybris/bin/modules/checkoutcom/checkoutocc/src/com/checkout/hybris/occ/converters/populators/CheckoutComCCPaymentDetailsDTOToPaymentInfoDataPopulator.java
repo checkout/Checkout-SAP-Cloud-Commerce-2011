@@ -29,5 +29,6 @@ public class CheckoutComCCPaymentDetailsDTOToPaymentInfoDataPopulator implements
         ccPaymentInfoData.setPaymentToken(paymentDetailsWsDTO.getPaymentToken());
         ccPaymentInfoData.setCardBin(paymentDetailsWsDTO.getCardBin());
         ccPaymentInfoData.setSaved(Optional.ofNullable(paymentDetailsWsDTO.getSaved()).orElse(Boolean.FALSE));
+        ccPaymentInfoData.setAccountHolderName(paymentDetailsWsDTO.getAccountHolderName());
     }
 }

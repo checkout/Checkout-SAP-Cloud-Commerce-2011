@@ -22,7 +22,7 @@ export class CheckoutComOrderReviewComponent extends OrderOverviewComponent {
       filter(() => Boolean(payment)),
       map(([textTitle, textExpires]) => ({
         title: textTitle,
-        text: [payment.cardNumber, textExpires],
+        text: [payment.accountHolderName, payment.cardNumber, textExpires],
       }))
     );
   }
