@@ -1,6 +1,6 @@
 package com.checkout.hybris.facades.payment.google.impl;
 
-import com.checkout.dto.order.GooglePayMerchantConfiguration;
+import com.checkout.hybris.facades.beans.GooglePayMerchantConfigurationData;
 import com.checkout.hybris.facades.beans.GooglePaySettingsData;
 import com.checkout.hybris.facades.merchant.CheckoutComMerchantConfigurationFacade;
 import com.checkout.hybris.facades.payment.google.CheckoutComGooglePayFacade;
@@ -12,10 +12,10 @@ import de.hybris.platform.servicelayer.dto.converter.Converter;
 public class DefaultCheckoutComGooglePayFacade implements CheckoutComGooglePayFacade {
 
     protected final CheckoutComMerchantConfigurationFacade checkoutComMerchantConfigurationFacade;
-    protected final Converter<GooglePaySettingsData, GooglePayMerchantConfiguration> checkoutComGooglePayPaymentRequestConverter;
+    protected final Converter<GooglePaySettingsData, GooglePayMerchantConfigurationData> checkoutComGooglePayPaymentRequestConverter;
 
     public DefaultCheckoutComGooglePayFacade(final CheckoutComMerchantConfigurationFacade checkoutComMerchantConfigurationFacade,
-                                             final Converter<GooglePaySettingsData, GooglePayMerchantConfiguration> checkoutComGooglePayPaymentRequestConverter) {
+                                             final Converter<GooglePaySettingsData, GooglePayMerchantConfigurationData> checkoutComGooglePayPaymentRequestConverter) {
         this.checkoutComMerchantConfigurationFacade = checkoutComMerchantConfigurationFacade;
         this.checkoutComGooglePayPaymentRequestConverter = checkoutComGooglePayPaymentRequestConverter;
     }
@@ -24,7 +24,7 @@ public class DefaultCheckoutComGooglePayFacade implements CheckoutComGooglePayFa
      * {@inheritDoc}
      */
     @Override
-    public GooglePayMerchantConfiguration getGooglePayMerchantConfiguration() {
+    public GooglePayMerchantConfigurationData getGooglePayMerchantConfiguration() {
         return checkoutComMerchantConfigurationFacade.getGooglePaySettings()
                 .map(checkoutComGooglePayPaymentRequestConverter::convert)
                 .orElseThrow(() -> new IllegalArgumentException("Google Pay Configuration can not be null"));

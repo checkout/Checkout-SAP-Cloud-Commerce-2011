@@ -1,11 +1,11 @@
 #Ant properties
-#Tue Jan 18 11:15:08 UTC 2022
+#Fri Apr 22 09:47:41 UTC 2022
 version.api=2011
 vendor=hybris
 group.id=de.hybris.platform
 name=checkoutevents
 description=checkoutevents
-builddate=20220118 1115
+builddate=20220422 0947
 releasedate=20210507 1245
 version=2011.7
 module.name=platform-module
