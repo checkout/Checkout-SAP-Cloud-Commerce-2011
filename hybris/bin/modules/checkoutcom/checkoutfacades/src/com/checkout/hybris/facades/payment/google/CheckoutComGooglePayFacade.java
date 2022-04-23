@@ -1,6 +1,6 @@
 package com.checkout.hybris.facades.payment.google;
 
-import com.checkout.dto.order.GooglePayMerchantConfiguration;
+import com.checkout.hybris.facades.beans.GooglePayMerchantConfigurationData;
 
 /**
  * Facade for Google Pay functionalities.
@@ -12,5 +12,5 @@ public interface CheckoutComGooglePayFacade {
      *
      * @return a Google Pay payment merchant configuration.
      */
-    GooglePayMerchantConfiguration getGooglePayMerchantConfiguration();
+    GooglePayMerchantConfigurationData getGooglePayMerchantConfiguration();
 }

@@ -472,7 +472,7 @@
            alias="checkoutComGooglePayTransactionInfoConverter"/>
     <bean id="defaultCheckoutComGooglePayTransactionInfoConverter"
           parent="abstractPopulatingConverter">
-        <property name="targetClass" value="com.checkout.dto.order.GooglePayTransactionInfo"/>
+        <property name="targetClass" value="com.checkout.hybris.facades.beans.GooglePayTransactionInfoData"/>
         <property name="populators">
             <list>
                 <ref bean="checkoutComGooglePayTransactionInfoPopulator"/>
@@ -489,7 +489,7 @@
            alias="checkoutComGooglePayPaymentRequestConverter"/>
     <bean id="defaultCheckoutComGooglePayPaymentRequestConverter"
           parent="abstractPopulatingConverter">
-        <property name="targetClass" value="com.checkout.dto.order.GooglePayMerchantConfiguration"/>
+        <property name="targetClass" value="com.checkout.hybris.facades.beans.GooglePayMerchantConfigurationData"/>
         <property name="populators">
             <list>
                 <ref bean="checkoutComGooglePayPaymentRequestPopulator"/>

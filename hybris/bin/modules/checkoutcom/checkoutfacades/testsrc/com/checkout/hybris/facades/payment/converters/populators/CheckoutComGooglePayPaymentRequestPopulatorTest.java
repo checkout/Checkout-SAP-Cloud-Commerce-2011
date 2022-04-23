@@ -1,8 +1,8 @@
 package com.checkout.hybris.facades.payment.converters.populators;
 
-import com.checkout.dto.order.GooglePayMerchantConfiguration;
-import com.checkout.dto.order.GooglePayTransactionInfo;
+import com.checkout.hybris.facades.beans.GooglePayMerchantConfigurationData;
 import com.checkout.hybris.facades.beans.GooglePaySettingsData;
+import com.checkout.hybris.facades.beans.GooglePayTransactionInfoData;
 import de.hybris.bootstrap.annotations.UnitTest;
 import de.hybris.platform.commercefacades.order.CartFacade;
 import de.hybris.platform.commercefacades.order.data.CartData;
@@ -39,13 +39,13 @@ public class CheckoutComGooglePayPaymentRequestPopulatorTest {
     @Mock
     private CartFacade cartFacadeMock;
     @Mock
-    private Converter<CartData, GooglePayTransactionInfo> checkoutComGooglePayTransactionInfoConverter;
+    private Converter<CartData, GooglePayTransactionInfoData> checkoutComGooglePayTransactionInfoConverter;
 
     @Mock
     private CartData cartDataMock;
 
     private final GooglePaySettingsData source = new GooglePaySettingsData();
-    private final GooglePayMerchantConfiguration target = new GooglePayMerchantConfiguration();
+    private final GooglePayMerchantConfigurationData target = new GooglePayMerchantConfigurationData();
 
 
     @Test(expected = IllegalArgumentException.class)

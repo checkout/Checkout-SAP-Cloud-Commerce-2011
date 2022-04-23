@@ -1,10 +1,6 @@
 package com.checkout.hybris.facades.payment.wallet.impl;
 
-import com.checkout.dto.order.ApplePayPaymentRequest;
-import com.checkout.dto.order.ApplePayTotal;
-import com.checkout.hybris.facades.beans.ApplePaySettingsData;
-import com.checkout.hybris.facades.beans.ApplePayValidateMerchantData;
-import com.checkout.hybris.facades.beans.ApplePayValidateMerchantRequestData;
+import com.checkout.hybris.facades.beans.*;
 import com.checkout.hybris.facades.merchant.CheckoutComMerchantConfigurationFacade;
 import com.checkout.hybris.facades.payment.CheckoutComPaymentFacade;
 import com.checkout.hybris.facades.payment.wallet.CheckoutComApplePayFacade;
@@ -62,15 +58,15 @@ public class DefaultCheckoutComApplePayFacade implements CheckoutComApplePayFaca
      * {@inheritDoc}
      */
     @Override
-    public ApplePayPaymentRequest getApplePayPaymentRequest() {
-        final ApplePayPaymentRequest paymentRequest = new ApplePayPaymentRequest();
+    public ApplePayPaymentRequestData getApplePayPaymentRequest() {
+        final ApplePayPaymentRequestData paymentRequest = new ApplePayPaymentRequestData();
 
         checkoutComMerchantConfigurationFacade.getApplePaySettings().ifPresentOrElse(applePaySettings -> {
 
             final CartData sessionCart = cartFacade.getSessionCart();
             final PriceData totalPrice = sessionCart.getTotalPrice();
 
-            paymentRequest.setTotal(createApplePayTotal(applePaySettings, totalPrice));
+            paymentRequest.setTotal(createApplePayTotalData(applePaySettings, totalPrice));
             paymentRequest.setMerchantCapabilities(applePaySettings.getMerchantCapabilities());
             paymentRequest.setSupportedNetworks(applePaySettings.getSupportedNetworks());
             paymentRequest.setCurrencyCode(totalPrice.getCurrencyIso());
@@ -96,8 +92,8 @@ public class DefaultCheckoutComApplePayFacade implements CheckoutComApplePayFaca
      * @param applePaySettings apple pay settings
      * @param totalPrice       cart total price
      */
-    private ApplePayTotal createApplePayTotal(final ApplePaySettingsData applePaySettings, final PriceData totalPrice) {
-        final ApplePayTotal total = new ApplePayTotal();
+    private ApplePayTotalData createApplePayTotalData(final ApplePaySettingsData applePaySettings, final PriceData totalPrice) {
+        final ApplePayTotalData total = new ApplePayTotalData();
         total.setType(TOTAL_LINE_ITEM_TYPE);
         total.setLabel(applePaySettings.getMerchantName());
         total.setAmount(totalPrice.getValue().toString());

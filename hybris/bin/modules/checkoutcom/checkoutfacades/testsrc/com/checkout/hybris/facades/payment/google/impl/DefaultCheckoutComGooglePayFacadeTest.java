@@ -1,6 +1,6 @@
 package com.checkout.hybris.facades.payment.google.impl;
 
-import com.checkout.dto.order.GooglePayMerchantConfiguration;
+import com.checkout.hybris.facades.beans.GooglePayMerchantConfigurationData;
 import com.checkout.hybris.facades.beans.GooglePaySettingsData;
 import com.checkout.hybris.facades.merchant.CheckoutComMerchantConfigurationFacade;
 import de.hybris.bootstrap.annotations.UnitTest;
@@ -26,7 +26,7 @@ public class DefaultCheckoutComGooglePayFacadeTest {
     @Mock
     private CheckoutComMerchantConfigurationFacade checkoutComMerchantConfigurationFacadeMock;
     @Mock
-    private Converter<GooglePaySettingsData, GooglePayMerchantConfiguration> checkoutComGooglePayPaymentRequestConverterMock;
+    private Converter<GooglePaySettingsData, GooglePayMerchantConfigurationData> checkoutComGooglePayPaymentRequestConverterMock;
 
     @Mock
     private GooglePaySettingsData googlePaySettingsDataMock;
@@ -40,11 +40,11 @@ public class DefaultCheckoutComGooglePayFacadeTest {
 
     @Test
     public void getGooglePayPaymentRequest_whenGooglePaySettingsAreNotMissing_ShouldReturnGooglePayMerchantSettings() {
-        final GooglePayMerchantConfiguration googlePayMerchantConfiguration = new GooglePayMerchantConfiguration();
+        final GooglePayMerchantConfigurationData googlePayMerchantConfiguration = new GooglePayMerchantConfigurationData();
         when(checkoutComGooglePayPaymentRequestConverterMock.convert(googlePaySettingsDataMock)).thenReturn(googlePayMerchantConfiguration);
         when(checkoutComMerchantConfigurationFacadeMock.getGooglePaySettings()).thenReturn(Optional.of(googlePaySettingsDataMock));
 
-        final GooglePayMerchantConfiguration result = testObj.getGooglePayMerchantConfiguration();
+        final GooglePayMerchantConfigurationData result = testObj.getGooglePayMerchantConfiguration();
 
         assertThat(result).isEqualTo(googlePayMerchantConfiguration);
     }

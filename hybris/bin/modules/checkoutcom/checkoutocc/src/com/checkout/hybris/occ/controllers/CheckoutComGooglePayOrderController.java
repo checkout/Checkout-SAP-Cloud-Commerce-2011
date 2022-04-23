@@ -1,6 +1,6 @@
 package com.checkout.hybris.occ.controllers;
 
-import com.checkout.dto.order.GooglePayMerchantConfiguration;
+import com.checkout.dto.order.GooglePayMerchantConfigurationWsDTO;
 import com.checkout.dto.order.PlaceWalletOrderWsDTO;
 import com.checkout.hybris.facades.address.CheckoutComWalletAddressFacade;
 import com.checkout.hybris.facades.beans.GooglePayAuthorisationRequest;
@@ -10,6 +10,7 @@ import com.checkout.hybris.facades.payment.wallet.CheckoutComWalletOrderFacade;
 import de.hybris.platform.webservicescommons.cache.CacheControl;
 import de.hybris.platform.webservicescommons.cache.CacheControlDirective;
 import de.hybris.platform.webservicescommons.mapping.DataMapper;
+import de.hybris.platform.webservicescommons.mapping.FieldSetLevelHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -41,8 +42,8 @@ public class CheckoutComGooglePayOrderController {
     @Secured({"ROLE_CUSTOMERGROUP", "ROLE_GUEST", "ROLE_CUSTOMERMANAGERGROUP", "ROLE_TRUSTED_CLIENT", "ROLE_CLIENT"})
     @GetMapping(value = "/merchant-configuration", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ApiOperation(nickname = "getMerchantConfiguration", value = "Gets google pay payment request")
-    public ResponseEntity<GooglePayMerchantConfiguration> getMerchantConfiguration() {
-        return ResponseEntity.ok().body(checkoutComGooglePayFacade.getGooglePayMerchantConfiguration());
+    public ResponseEntity<GooglePayMerchantConfigurationWsDTO> getMerchantConfiguration() {
+        return ResponseEntity.ok().body(dataMapper.map(checkoutComGooglePayFacade.getGooglePayMerchantConfiguration(), GooglePayMerchantConfigurationWsDTO.class, FieldSetLevelHelper.FULL_LEVEL));
     }
 
     @Secured({"ROLE_CUSTOMERGROUP", "ROLE_GUEST", "ROLE_CUSTOMERMANAGERGROUP", "ROLE_TRUSTED_CLIENT", "ROLE_CLIENT"})
