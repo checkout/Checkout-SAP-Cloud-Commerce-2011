@@ -1,6 +1,6 @@
 package com.checkout.hybris.facades.cart.converters.populators;
 
-import com.checkout.dto.order.GooglePayTransactionInfo;
+import com.checkout.hybris.facades.beans.GooglePayTransactionInfoData;
 import de.hybris.bootstrap.annotations.UnitTest;
 import de.hybris.platform.commercefacades.order.data.CartData;
 import de.hybris.platform.commercefacades.product.data.PriceData;
@@ -14,13 +14,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CheckoutComGooglePayTransactionInfoPopulatorTest {
 
     private static final String CURRENCY_ISO_CODE = "EUR";
+    private static final String TOTAL_PRICE_STATUS = "ESTIMATED";
     private static final BigDecimal TOTAL_PRICE = BigDecimal.valueOf(123.23);
-    private static final String TOTAL_PRICE_STATUS = "FINAL";
 
     private final CheckoutComGooglePayTransactionInfoPopulator testObj = new CheckoutComGooglePayTransactionInfoPopulator();
 
     private final CartData source = new CartData();
-    private final GooglePayTransactionInfo target = new GooglePayTransactionInfo();
+    private final GooglePayTransactionInfoData target = new GooglePayTransactionInfoData();
 
     @Test(expected = IllegalArgumentException.class)
     public void populate_WhenSourceIsNull_ShouldThrowException() {

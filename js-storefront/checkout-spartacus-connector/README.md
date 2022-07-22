@@ -28,9 +28,9 @@ Increase the version number in `package.json`
 Make sure you are logged in and your account has access to the Checkout.com organisation 
 
 * Remove all files from the node_modules/ and dist/ folders
-* Run yarn install to install all required dependencies
-* Run yarn run test to validate that there are no existing blocking errors in the code
-* Run yarn run build to build the library
+* Run `yarn install` to install all required dependencies
+* Run `yarn run test` to validate that there are no existing blocking errors in the code
+* Run `yarn run build-prod` to build the library
 
 If you are satisfied with the results from the tests and the library is built without problems you can publish the package.
 * Run `npm publish --access public` in both `dist/checkout-spartacus-connector` and `dist/checkout-spartacus-translations`.
