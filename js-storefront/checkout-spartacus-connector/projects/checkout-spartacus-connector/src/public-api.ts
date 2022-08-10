@@ -49,6 +49,10 @@ export * from './storefrontlib/cms-components/checkout-com-order-confirmation-ov
 export * from './storefrontlib/cms-components/checkout-com-order-confirmation-thank-you-message/checkout-com-order-confirmation-thank-you-message.component';
 export * from './storefrontlib/cms-components/checkout-com-order-confirmation-thank-you-message/checkout-com-order-confirmation-thank-you-message.module';
 
+export * from './storefrontlib/cms-components/checkout-com-express-buttons/checkout-com-express-applepay/checkout-com-express-applepay.component'
+export * from './storefrontlib/cms-components/checkout-com-express-buttons/checkout-com-express-googlepay/checkout-com-express-googlepay.component'
+export * from './storefrontlib/cms-components/checkout-com-express-buttons/checkout-com-express-buttons.module'
+
 export * from './core/interfaces';
 export * from './core/store/checkout-com-store.module';
 export * from './core/store/checkout-com.actions';

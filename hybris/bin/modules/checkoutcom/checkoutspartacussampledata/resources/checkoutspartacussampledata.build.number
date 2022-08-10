@@ -1,11 +1,11 @@
 #Ant properties
-#Fri Apr 22 09:47:41 UTC 2022
+#Fri Jul 22 11:01:40 UTC 2022
 version.api=2011
 vendor=hybris
 group.id=de.hybris.platform
 name=checkoutspartacussampledata
 description=checkoutspartacussampledata
-builddate=20220422 0947
+builddate=20220722 1101
 releasedate=20210507 1245
 version=2011.7
 module.name=platform-module
