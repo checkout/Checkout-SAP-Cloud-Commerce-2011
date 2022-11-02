@@ -8,14 +8,14 @@ This library is tailored to the [Spartacus](https://sap.github.io/spartacus-docs
 
 This release is compatible with:
 * Spartacus: version 4.2.x
-* SAP Commerce Cloud: version 2011
+* SAP Commerce Cloud: version 2105
 * Angular CLI: Version 10.1 or later, < 11.
 * Node.js: The most recent 12.x version is recommended, < 13.
 * Yarn: Version 1.15 or later.
 * Requires Spartacus Feature Modules: `checkout` and `order`
 
 ## Development 
-Install the [Checkout.com SAP Commerce Cloud Connector](https://github.com/checkout/Checkout-SAP-Cloud-Commerce-2011).
+Install the [Checkout.com SAP Commerce Cloud Connector](https://github.com/checkout/SAP-Cloud-Commerce-2105).
 Run `yarn` and then `yarn run start` and the server will start on [http://localhost:4200](http://localhost:4200).   
 When you make some changes in the code of library, you need to rebuild it (but rebuilding of the "example-storefront" is not required) - `yarn run start` is a shortcut for this.
 
@@ -36,7 +36,7 @@ If you are satisfied with the results from the tests and the library is built wi
 * Run `npm publish --access public` in both `dist/checkout-spartacus-connector` and `dist/checkout-spartacus-translations`.
 
 ## Extending components
-The source code of the connector can be found on [GitHub](https://github.com/checkout/Checkout-SAP-Cloud-Commerce-2011). 
+The source code of the connector can be found on [GitHub](https://github.com/checkout/SAP-Cloud-Commerce-2105). 
 
 If you need to extend components, you can fork the repository so you are able to upgrade to future releases. In this fork, you can make your changes and import the library in your storefront.
 

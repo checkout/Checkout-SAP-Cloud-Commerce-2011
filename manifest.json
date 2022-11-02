@@ -1,5 +1,5 @@
 {
-  "commerceSuiteVersion": "2011",
+  "commerceSuiteVersion": "2105",
   "useCloudExtensionPack": true,
   "extensions": [
     "adaptivesearchsolr",
@@ -115,11 +115,6 @@
     },
     {
       "addon": "captchaaddon",
-      "storefront": "yacceleratorstorefront",
-      "template": "yacceleratorstorefront"
-    },
-    {
-      "addon": "promotionenginesamplesaddon",
       "storefront": "yacceleratorstorefront",
       "template": "yacceleratorstorefront"
     },
