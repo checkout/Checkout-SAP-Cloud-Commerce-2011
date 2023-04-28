@@ -145,17 +145,8 @@ export const checkoutComTranslations = {
     common: {
       formErrors: {
         pattern: 'Input format is wrong'
-      },
-      httpHandlers: {
-        validationErrors: {
-          invalid: {
-            cardType: {
-              code: 'The card type that was provided is currently not supported'
-            }
-          }
-        }
       }
-    },
+    }
   },
 };
 
