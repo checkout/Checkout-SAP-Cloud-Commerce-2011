@@ -119,11 +119,6 @@
       "template": "yacceleratorstorefront"
     },
     {
-      "addon": "promotionenginesamplesaddon",
-      "storefront": "yacceleratorstorefront",
-      "template": "yacceleratorstorefront"
-    },
-    {
       "addon": "assistedservicestorefront",
       "storefront": "yacceleratorstorefront",
       "template": "yacceleratorstorefront"

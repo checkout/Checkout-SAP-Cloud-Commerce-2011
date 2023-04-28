@@ -2,7 +2,6 @@ package com.checkout.hybris.occtests.test.groovy.v2.spock.orders
 
 import com.checkout.hybris.occtests.test.groovy.v2.spock.paymentdetails.AbstractCheckoutComPaymentsTest
 import de.hybris.bootstrap.annotations.ManualTest
-import org.apache.commons.lang.StringUtils
 import spock.lang.Unroll
 
 import static groovyx.net.http.ContentType.JSON
@@ -88,6 +87,7 @@ class CheckoutComCCOrdersTest extends AbstractCheckoutComPaymentsTest {
         with(response) {
             status == SC_BAD_REQUEST
             data.errors[0].message == 'Payment authorization was not successful'
+            data.errors[0].type == 'PaymentAuthorizationError'
         }
 
         where:
@@ -114,6 +114,7 @@ class CheckoutComCCOrdersTest extends AbstractCheckoutComPaymentsTest {
             if (isNotEmpty(data) && isNotEmpty(data.errors)) println(data)
             status == SC_BAD_REQUEST
             data.errors[0].message == 'Failed to place the order'
+            data.errors[0].type == 'PlaceOrderError'
         }
 
         where:
@@ -140,6 +141,7 @@ class CheckoutComCCOrdersTest extends AbstractCheckoutComPaymentsTest {
             if (isNotEmpty(data) && isNotEmpty(data.errors)) println(data)
             status == SC_BAD_REQUEST
             data.errors[0].message == 'Failed to place the order'
+            data.errors[0].type == 'PlaceOrderError'
         }
 
         where:
@@ -257,7 +259,7 @@ class CheckoutComCCOrdersTest extends AbstractCheckoutComPaymentsTest {
     def "Guest customer places an order with 3ds: #format"() {
         given: "a guest customer"
         def userGuid = getGuestUid()
-        def cart = prepareCartForGuestOrder(restClient, userGuid, format)
+        def cart = prepareCartForGuestOrder(restClient, userGuid, address, format)
         createPaymentInfo(restClient, ANONYMOUS_USER, cart.guid)
         activate3ds()
 
@@ -272,13 +274,14 @@ class CheckoutComCCOrdersTest extends AbstractCheckoutComPaymentsTest {
         }
 
         where:
+        address << [GOOD_ADDRESS_DE_XML, GOOD_ADDRESS_DE_JSON]
         format << [XML, JSON]
     }
 
     def "Guest customer places an order without 3ds: #format"() {
         given: "a guest customer"
         def userGuid = getGuestUid()
-        def cart = prepareCartForGuestOrder(restClient, userGuid, format)
+        def cart = prepareCartForGuestOrder(restClient, userGuid, address, format)
         createPaymentInfo(restClient, ANONYMOUS_USER, cart.guid)
         deactivate3ds()
 
@@ -293,13 +296,14 @@ class CheckoutComCCOrdersTest extends AbstractCheckoutComPaymentsTest {
         }
 
         where:
+        address << [GOOD_ADDRESS_DE_XML, GOOD_ADDRESS_DE_JSON]
         format << [XML, JSON]
     }
 
     def "Guest customer places an order with invalid card: #format"() {
         given: "a guest customer"
         def userGuid = getGuestUid()
-        def cart = prepareCartForGuestOrder(restClient, userGuid, format)
+        def cart = prepareCartForGuestOrder(restClient, userGuid, address, format)
         createPaymentInfo(restClient, ANONYMOUS_USER, cart.guid, INVALID_CHECKOUT_CC_PAYMENT_JSON, INVALID_GET_CC_TOKEN_JSON)
 
         when: "guest customer places order"
@@ -308,18 +312,19 @@ class CheckoutComCCOrdersTest extends AbstractCheckoutComPaymentsTest {
         then: "error message is thrown"
         with(response) {
             status == SC_BAD_REQUEST
-            data.errors[0].message == 'The application has encountered an error'
+            data.errors[0].message == 'Payment authorization was not successful'
             data.errors[0].type == 'PaymentAuthorizationError'
         }
 
         where:
+        address << [GOOD_ADDRESS_DE_XML, GOOD_ADDRESS_DE_JSON]
         format << [XML, JSON]
     }
 
     def "Guest customer places an order when comes from redirect url with an invalid checkout session id: #format"() {
         given: "a guest customer"
         def userGuid = getGuestUid()
-        def cart = prepareCartForGuestOrder(restClient, userGuid, format)
+        def cart = prepareCartForGuestOrder(restClient, userGuid, address, format)
         createAPMPaymentInfo(restClient, ANONYMOUS_USER, cart.guid, DEFAULT_CHECKOUT_PAYPAL_PAYMENT_JSON)
 
         when: "guest customer places order"
@@ -329,18 +334,19 @@ class CheckoutComCCOrdersTest extends AbstractCheckoutComPaymentsTest {
         with(response) {
             if (isNotEmpty(data) && isNotEmpty(data.errors)) println(data)
             status == SC_BAD_REQUEST
-            data.errors[0].message == 'The application has encountered an error'
+            data.errors[0].message == 'Failed to place the order'
             data.errors[0].type == 'PlaceOrderError'
         }
 
         where:
+        address << [GOOD_ADDRESS_DE_XML, GOOD_ADDRESS_DE_JSON]
         format << [XML, JSON]
     }
 
     def "Guest customer places an order with MADA 3ds flow card with 3DS Active: #format"() {
         given: "a guest customer"
         def userGuid = getGuestUid()
-        def cart = prepareCartForGuestOrder(restClient, userGuid, format)
+        def cart = prepareCartForGuestOrder(restClient, userGuid, address, format)
         createPaymentInfo(restClient, ANONYMOUS_USER, cart.guid, MADA_3DS_CHECKOUT_CC_PAYMENT_JSON, MADA_3DS_GET_CC_TOKEN_JSON)
         activate3ds()
 
@@ -355,13 +361,14 @@ class CheckoutComCCOrdersTest extends AbstractCheckoutComPaymentsTest {
         }
 
         where:
+        address << [GOOD_ADDRESS_DE_XML, GOOD_ADDRESS_DE_JSON]
         format << [XML, JSON]
     }
 
     def "Guest customer places an order with MADA 3ds flow card with 3DS Inactive: #format"() {
         given: "a guest customer"
         def userGuid = getGuestUid()
-        def cart = prepareCartForGuestOrder(restClient, userGuid, format)
+        def cart = prepareCartForGuestOrder(restClient, userGuid, address, format)
         createPaymentInfo(restClient, ANONYMOUS_USER, cart.guid, MADA_3DS_CHECKOUT_CC_PAYMENT_JSON, MADA_3DS_GET_CC_TOKEN_JSON)
         deactivate3ds()
 
@@ -376,13 +383,14 @@ class CheckoutComCCOrdersTest extends AbstractCheckoutComPaymentsTest {
         }
 
         where:
+        address << [GOOD_ADDRESS_DE_XML, GOOD_ADDRESS_DE_JSON]
         format << [XML, JSON]
     }
 
     def "Guest customer places an order with MADA 3ds flow frictionless flow card with 3DS Active: #format"() {
         given: "a guest customer"
         def userGuid = getGuestUid()
-        def cart = prepareCartForGuestOrder(restClient, userGuid, format)
+        def cart = prepareCartForGuestOrder(restClient, userGuid, address, format)
         createPaymentInfo(restClient, ANONYMOUS_USER, cart.guid, MADA_FRICTIONLESS_CHECKOUT_CC_PAYMENT_JSON, MADA_FRICTIONLESS_GET_CC_TOKEN_JSON)
         activate3ds()
 
@@ -397,13 +405,14 @@ class CheckoutComCCOrdersTest extends AbstractCheckoutComPaymentsTest {
         }
 
         where:
+        address << [GOOD_ADDRESS_DE_XML, GOOD_ADDRESS_DE_JSON]
         format << [XML, JSON]
     }
 
     def "Guest customer places an order with MADA 3ds flow frictionless flow card with 3DS Inactive: #format"() {
         given: "a guest customer"
         def userGuid = getGuestUid()
-        def cart = prepareCartForGuestOrder(restClient, userGuid, format)
+        def cart = prepareCartForGuestOrder(restClient, userGuid, address, format)
         createPaymentInfo(restClient, ANONYMOUS_USER, cart.guid, MADA_FRICTIONLESS_CHECKOUT_CC_PAYMENT_JSON, MADA_FRICTIONLESS_GET_CC_TOKEN_JSON)
         deactivate3ds()
 
@@ -418,6 +427,7 @@ class CheckoutComCCOrdersTest extends AbstractCheckoutComPaymentsTest {
         }
 
         where:
+        address << [GOOD_ADDRESS_DE_XML, GOOD_ADDRESS_DE_JSON]
         format << [XML, JSON]
     }
 }

@@ -150,7 +150,7 @@ def pl = platform {
 
     addons {
         forStoreFronts('yacceleratorstorefront') {
-            names('captchaaddon', 'commerceorgsamplesaddon', 'promotionenginesamplesaddon', 'assistedservicestorefront', 'assistedservicecustomerinterestsaddon',
+            names('captchaaddon', 'commerceorgsamplesaddon', 'assistedservicestorefront', 'assistedservicecustomerinterestsaddon',
                     'assistedserviceyprofileaddon', 'assistedservicepromotionaddon', 'customerticketingaddon', 'textfieldconfiguratortemplateaddon', 'smarteditaddon',
                     'consignmenttrackingaddon', 'notificationaddon', 'customerinterestsaddon', 'stocknotificationaddon', 'orderselfserviceaddon', 'adaptivesearchsamplesaddon',
                     'configurablebundleaddon', 'pcmbackofficesamplesaddon', 'xyformssamples', 'xyformsstorefrontcommons',

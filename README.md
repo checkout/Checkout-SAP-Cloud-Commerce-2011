@@ -6,7 +6,7 @@ The Connector for SAP Commerce Cloud (formerly Hybris) enables customers to impl
 This release is compatible with:
 - SAP Commerce: B2C Accelerator of SAP Commerce Cloud 2011. It is advised to install the latest patch version of SAP Commerce Cloud.
 - SAP Commerce REST API (OCC).
-- Spartacus 4.
+- Spartacus 4.2.
 - Java 11.
 - Checkout.com Java SDK version 3.
 
@@ -73,16 +73,13 @@ Install the Connector using recipes. Run the following commands:
 Follow the instructions below to install and deploy the Connector on SAP Commerce Cloud. The sample manifest.json included in the Connector serves as guide for the installation. Adapt your  manifest.json file to include Checkout.com extensions.  
 The public, private and shared keys are included as properties in the manifest as placeholder. Add your keys as properties in the SAP Commerce Cloud environments.  
 
-Follow [this guideline](https://help.sap.com/viewer/1be46286b36a4aa48205be5a96240672/v2011/en-US/1ee068bcce7845b8ab4ed9cdd54577fb.html) to prepare the repository for the deployment onto SAP Commerce Cloud. Include the Connector extensions in the folder `core-customize`.
+Follow [this guideline](https://help.sap.com/docs/SAP_COMMERCE_CLOUD_PUBLIC_CLOUD/1be46286b36a4aa48205be5a96240672/1ee068bcce7845b8ab4ed9cdd54577fb.html?locale=en-US&version=v2011) to prepare the repository for the deployment onto SAP Commerce Cloud. Include the Connector extensions in the folder `core-customize`.
 
 # Spartacus Frontend
 Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API (OCC). The Connector for SAP Commerce Cloud supports the Spartacus frontend. Check out details and release notes in the Checkout.com repository for Spartacus.  
 
 # Release Notes
-- GooglePay 3D Secure payment support for both accelerator and spartacus
-- Spartacus: Fix 3D Secure redirect issue for card and googlePay payments
-- Spartacus: fix address selector
-- Update googlePay image
+- Added support for environments using NAS flows.
 
 # Support
 Contact your Checkout.com team if you have any question, technical problem or feature request for the SAP Commerce Cloud Connector.
