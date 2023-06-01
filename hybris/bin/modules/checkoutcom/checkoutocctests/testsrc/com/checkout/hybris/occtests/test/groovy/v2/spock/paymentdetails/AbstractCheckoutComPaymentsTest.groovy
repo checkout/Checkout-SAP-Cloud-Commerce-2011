@@ -261,6 +261,22 @@ abstract class AbstractCheckoutComPaymentsTest extends AbstractCartTest {
         return response.data.token
     }
 
+    def useNAS() {
+        def modelService = Registry.getApplicationContext()
+                .getBean("modelService", ModelService.class)
+        def merchantConf = getMerchantConfiguration()
+        merchantConf.setUseNas(Boolean.TRUE)
+        modelService.save(merchantConf);
+    }
+
+    def useABC() {
+        def modelService = Registry.getApplicationContext()
+                .getBean("modelService", ModelService.class)
+        def merchantConf = getMerchantConfiguration()
+        merchantConf.setUseNas(Boolean.FALSE)
+        modelService.save(merchantConf);
+    }
+
     /**
      * Activates 3DS
      */
@@ -385,7 +401,7 @@ abstract class AbstractCheckoutComPaymentsTest extends AbstractCartTest {
         return guestUid;
     }
 
-    protected prepareCartForGuestOrder(RESTClient client, userGuid, format) {
+    protected prepareCartForGuestOrder(RESTClient client, userGuid, address, format) {
         authorizeClient(client)
         def anonymous = ANONYMOUS_USER
         def cart = createAnonymousCart(client, format)
@@ -394,10 +410,20 @@ abstract class AbstractCheckoutComPaymentsTest extends AbstractCartTest {
         //setting email address on cart makes it recognized as guest cart
         addEmailToAnonymousCart(client, cart.guid, userGuid, format)
 
-        setAddressForAnonymousCart(client, GOOD_ADDRESS_DE_JSON, cart.guid, format)
+        setAddressForAnonymousCart(client, address, cart.guid, format)
         setDeliveryModeForCart(client, anonymous, cart.guid, DELIVERY_STANDARD, format)
         createBillingAddress(ANONYMOUS_USER.id, cart.guid)
 
         return cart
+    }
+
+    protected void setAddressForAnonymousCart(RESTClient client, address, cartGuid, format, basePathWithSite = getBasePathWithSite()) {
+        HttpResponseDecorator response = client.post(
+                path: basePathWithSite + '/users/anonymous/carts/' + cartGuid + "/addresses/delivery",
+                body: address,
+                query: ['fields': FIELD_SET_LEVEL_FULL],
+                contentType: format,
+        )
+        with(response) { status == SC_CREATED }
     }
 }

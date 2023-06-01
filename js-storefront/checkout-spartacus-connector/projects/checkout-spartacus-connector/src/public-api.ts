@@ -48,12 +48,6 @@ export * from './storefrontlib/cms-components/checkout-com-order-confirmation-ov
 export * from './storefrontlib/cms-components/checkout-com-order-confirmation-overview/checkout-com-order-confirmation-overview.module';
 export * from './storefrontlib/cms-components/checkout-com-order-confirmation-thank-you-message/checkout-com-order-confirmation-thank-you-message.component';
 export * from './storefrontlib/cms-components/checkout-com-order-confirmation-thank-you-message/checkout-com-order-confirmation-thank-you-message.module';
-export * from './storefrontlib/cms-components/checkout-com-guest-form/checkout-com-guest-form.component';
-export * from './storefrontlib/cms-components/checkout-com-guest-form/checkout-com-guest-form.module';
-
-export * from './storefrontlib/cms-components/checkout-com-express-buttons/checkout-com-express-applepay/checkout-com-express-applepay.component'
-export * from './storefrontlib/cms-components/checkout-com-express-buttons/checkout-com-express-googlepay/checkout-com-express-googlepay.component'
-export * from './storefrontlib/cms-components/checkout-com-express-buttons/checkout-com-express-buttons.module'
 
 export * from './storefrontlib/cms-components/checkout-com-express-buttons/checkout-com-express-applepay/checkout-com-express-applepay.component'
 export * from './storefrontlib/cms-components/checkout-com-express-buttons/checkout-com-express-googlepay/checkout-com-express-googlepay.component'

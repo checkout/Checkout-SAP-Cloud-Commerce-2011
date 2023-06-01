@@ -1,11 +1,11 @@
 #Ant properties
-#Wed Nov 02 16:41:43 UTC 2022
-version.api=2105
+#Fri May 26 09:34:34 UTC 2023
+version.api=2011
 vendor=hybris
 group.id=de.hybris.platform
 name=checkoutaddon
 description=checkoutaddon
-builddate=20221102 1641
-releasedate=20211216 1837
-version=2105.5
+builddate=20230526 0934
+releasedate=20220504 0618
+version=2011.21
 module.name=platform-module
